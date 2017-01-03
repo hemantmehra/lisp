@@ -1,8 +1,10 @@
 #include <assert.h>
 #include <stdio.h>
 
+#include "object.h"
 #include "intobject.h"
 #include "consobject.h"
+#include "boolobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -25,9 +27,20 @@ void consobject_test(){
 	assert(INT_VAL(CDR(cobj)) == 35);
 }
 
+void boolobject_test(){
+	BoolObject *b1, *b2;
+	b1 = Bool(TRUE);
+	b2 = Bool(FALSE);
+
+	assert(TYPE(b1) == BOOLEAN && TYPE(b2) == BOOLEAN);
+	assert(BOOL_VAL(b1) == TRUE);
+	assert(BOOL_VAL(b2) == FALSE);
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
+	boolobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;

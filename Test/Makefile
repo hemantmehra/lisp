@@ -6,12 +6,14 @@ CFLAGS = -I$(IDIR)
 HEADERS = \
 	$(IDIR)/object.h \
 	$(IDIR)/intobject.h \
-	$(IDIR)/consobject.h
+	$(IDIR)/consobject.h \
+	$(IDIR)/boolobject.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
 	$(ODIR)/intobject.o \
-	$(ODIR)/consobject.o
+	$(ODIR)/consobject.o \
+	$(ODIR)/boolobject.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -26,6 +28,10 @@ $(ODIR)/intobject.o: $(ODIR)/intobject.c $(HEADERS)
 
 $(ODIR)/consobject.o: $(ODIR)/consobject.c $(HEADERS)
 	gcc -c $(ODIR)/consobject.c -o $(ODIR)/consobject.o $(CFLAGS)
+
+$(ODIR)/boolobject.o: $(ODIR)/boolobject.c $(HEADERS)
+	gcc -c $(ODIR)/boolobject.c -o $(ODIR)/boolobject.o $(CFLAGS)
+
 
 
 clean:

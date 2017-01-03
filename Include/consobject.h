@@ -1,6 +1,8 @@
 #ifndef CONS_OBJECT_H
 #define CONS_OBJECT_H
 
+#include "object.h"
+
 struct _cons_object{
 	OBJECT_HEAD;
 	Object *car;
