@@ -8,14 +8,16 @@ HEADERS = \
 	$(IDIR)/intobject.h \
 	$(IDIR)/consobject.h \
 	$(IDIR)/boolobject.h \
-	$(IDIR)/nilobject.h
+	$(IDIR)/nilobject.h \
+	$(IDIR)/floatobject.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
 	$(ODIR)/intobject.o \
 	$(ODIR)/consobject.o \
 	$(ODIR)/boolobject.o \
-	$(ODIR)/nilobject.o
+	$(ODIR)/nilobject.o \
+	$(IDIR)/floatobject.o 
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -36,8 +38,8 @@ $(ODIR)/boolobject.o: $(ODIR)/boolobject.c $(HEADERS)
 
 $(ODIR)/nilobject.o: $(ODIR)/nilobject.c $(HEADERS)
 	gcc -c $(ODIR)/nilobject.c -o $(ODIR)/nilobject.o $(CFLAGS)
-
-
+$(ODIR)/floatobject.o:$(ODIR)/floatobject.c $(HEADERS)
+    gcc -c $(ODIR)/floatobject.c -o $(ODIR)/floatobject.o $(CFLAGS)
 
 clean:
 	rm $(OBJECTS) test.o

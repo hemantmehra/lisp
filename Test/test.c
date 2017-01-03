@@ -43,6 +43,13 @@ void nilobject_test(){
 	nil = Nil();
 	assert(TYPE(nil) == NIL);
 }
+void floatobject_test()
+{
+FloatObject *f;
+f=Float(20.56);
+assert(FLOAT_VAL(f)==20.56);
+assert(TYPE(f)==FLOAT);
+}
 
 int main(){
 	intobject_test();
