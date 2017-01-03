@@ -5,6 +5,7 @@
 #include "intobject.h"
 #include "consobject.h"
 #include "boolobject.h"
+#include "nilobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -37,10 +38,17 @@ void boolobject_test(){
 	assert(BOOL_VAL(b2) == FALSE);
 }
 
+void nilobject_test(){
+	NilObject *nil;
+	nil = Nil();
+	assert(TYPE(nil) == NIL);
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
 	boolobject_test();
+	nilobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;
