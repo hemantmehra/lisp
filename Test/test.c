@@ -6,6 +6,7 @@
 #include "consobject.h"
 #include "boolobject.h"
 #include "nilobject.h"
+#include "floatobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -43,12 +44,12 @@ void nilobject_test(){
 	nil = Nil();
 	assert(TYPE(nil) == NIL);
 }
-void floatobject_test()
-{
-FloatObject *f;
-f=Float(20.56);
-assert(FLOAT_VAL(f)==20.56);
-assert(TYPE(f)==FLOAT);
+
+void floatobject_test(){
+	FloatObject *f;
+	f=Float(20.5);
+	assert(FLOAT_VAL(f)==20.5);
+	assert(TYPE(f)==FLOAT);
 }
 
 int main(){
@@ -56,6 +57,7 @@ int main(){
 	consobject_test();
 	boolobject_test();
 	nilobject_test();
+	floatobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;
