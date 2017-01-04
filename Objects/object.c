@@ -4,6 +4,7 @@
 #include "consobject.h"
 #include "boolobject.h"
 #include "nilobject.h"
+#include "floatobject.h"
 
 void del_object(Object* obj){
 	if(TYPE(obj) == INTEGER){
@@ -25,5 +26,10 @@ void del_object(Object* obj){
 		NilObject* nil_obj;
 		nil_obj = NIL_OBJECT_CAST(obj);
 		free(nil_obj);
+	}
+	else if(TYPE(obj) == FLOAT){
+		FloatObject* float_obj;
+		float_obj = FLOAT_OBJECT_CAST(obj);
+		free(float_obj);
 	}
 }
