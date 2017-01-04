@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "object.h"
 #include "intobject.h"
@@ -7,6 +8,7 @@
 #include "boolobject.h"
 #include "nilobject.h"
 #include "floatobject.h"
+#include "symbolobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -47,9 +49,16 @@ void nilobject_test(){
 
 void floatobject_test(){
 	FloatObject *f;
-	f=Float(20.5);
-	assert(FLOAT_VAL(f)==20.5);
-	assert(TYPE(f)==FLOAT);
+	f = Float(20.5);
+	assert(FLOAT_VAL(f) == 20.5);
+	assert(TYPE(f) == FLOAT);
+}
+
+void symbolobject_test(){
+	SymbolObject* s;
+	s = Symbol("variable1");
+	assert(TYPE(s) == SYMBOL);
+	assert(strcmp(SYMBOL_NAME(s), "variable1") == 0);
 }
 
 int main(){
@@ -58,6 +67,7 @@ int main(){
 	boolobject_test();
 	nilobject_test();
 	floatobject_test();
+	symbolobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;

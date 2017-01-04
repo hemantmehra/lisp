@@ -9,7 +9,7 @@ enum _object_type{
 	SYMBOL,
 	BOOLEAN,
 	STRING,
-	PROCEDURE,
+	CLOSURE,
 	NIL
 };
 
