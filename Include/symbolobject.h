@@ -5,7 +5,7 @@
 
 struct _symbol_object{
 	OBJECT_HEAD;
-	char *name;
+	char name[1];
 };
 
 typedef struct _symbol_object SymbolObject;
@@ -13,7 +13,6 @@ typedef struct _symbol_object SymbolObject;
 #define SYMBOL_OBJECT_CAST(obj) ((SymbolObject *) obj)
 #define SYMBOL_NAME(obj) (SYMBOL_OBJECT_CAST(obj)->name)
 
-SymbolObject* new_symbol_object();
 SymbolObject* Symbol(char*);
 
 #endif
