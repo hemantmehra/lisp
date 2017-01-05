@@ -9,6 +9,7 @@
 #include "nilobject.h"
 #include "floatobject.h"
 #include "symbolobject.h"
+#include "list.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -61,6 +62,17 @@ void symbolobject_test(){
 	assert(strcmp(SYMBOL_NAME(s), "variable1") == 0);
 }
 
+void list_test(){
+	Object* l;
+	l = List(4, Int(10), Float(2.125), Bool(FALSE), Symbol("var1"));
+
+	assert(INT_VAL(CAR(l)) == 10);
+	assert(FLOAT_VAL(CAR(CDR(l))) == 2.125);
+	assert(BOOL_VAL(CAR(CDR(CDR(l)))) == FALSE);
+	assert(strcmp(SYMBOL_NAME(CAR(CDR(CDR(CDR(l))))), "var1") == 0);
+	assert(TYPE(CDR(CDR(CDR(CDR(l))))) == NIL);
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
@@ -68,6 +80,7 @@ int main(){
 	nilobject_test();
 	floatobject_test();
 	symbolobject_test();
+	list_test();
 
 	printf("Test Successful!!!\n");
 	return 0;

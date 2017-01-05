@@ -10,7 +10,8 @@ HEADERS = \
 	$(IDIR)/boolobject.h \
 	$(IDIR)/nilobject.h \
 	$(IDIR)/floatobject.h \
-	$(IDIR)/symbolobject.h
+	$(IDIR)/symbolobject.h \
+	$(IDIR)/list.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -19,7 +20,8 @@ OBJECTS = \
 	$(ODIR)/boolobject.o \
 	$(ODIR)/nilobject.o \
 	$(ODIR)/floatobject.o \
-	$(ODIR)/symbolobject.o
+	$(ODIR)/symbolobject.o \
+	$(ODIR)/list.c
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -46,6 +48,9 @@ $(ODIR)/floatobject.o: $(ODIR)/floatobject.c $(HEADERS)
 
 $(ODIR)/symbolobject.o: $(ODIR)/symbolobject.c $(HEADERS)
 	gcc -c $(ODIR)/symbolobject.c -o $(ODIR)/symbolobject.o $(CFLAGS)
+
+$(ODIR)/list.o: $(ODIR)/list.c $(HEADERS)
+	gcc -c $(ODIR)/list.c -o $(ODIR)/list.o $(CFLAGS)
 
 clean:
 	rm $(OBJECTS) test.o
