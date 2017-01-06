@@ -11,7 +11,8 @@ HEADERS = \
 	$(IDIR)/nilobject.h \
 	$(IDIR)/floatobject.h \
 	$(IDIR)/symbolobject.h \
-	$(IDIR)/list.h
+	$(IDIR)/list.h \
+	$(IDIR)/environment.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -21,7 +22,8 @@ OBJECTS = \
 	$(ODIR)/nilobject.o \
 	$(ODIR)/floatobject.o \
 	$(ODIR)/symbolobject.o \
-	$(ODIR)/list.c
+	$(ODIR)/list.o \
+	$(ODIR)/environment.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -51,6 +53,9 @@ $(ODIR)/symbolobject.o: $(ODIR)/symbolobject.c $(HEADERS)
 
 $(ODIR)/list.o: $(ODIR)/list.c $(HEADERS)
 	gcc -c $(ODIR)/list.c -o $(ODIR)/list.o $(CFLAGS)
+
+$(ODIR)/environment.o: $(ODIR)/environment.c $(HEADERS)
+	gcc -c $(ODIR)/environment.c -o $(ODIR)/environment.o $(CFLAGS)
 
 clean:
 	rm $(OBJECTS) test.o

@@ -10,6 +10,7 @@
 #include "floatobject.h"
 #include "symbolobject.h"
 #include "list.h"
+#include "environment.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -73,6 +74,17 @@ void list_test(){
 	assert(TYPE(CDR(CDR(CDR(CDR(l))))) == NIL);
 }
 
+void env_test(){
+	Env* e;
+	int i;
+	e = new_env();
+	assert(e->size == MIN_TABLE_SIZE);
+	assert(e->used == 0);
+	for(i = 0; i < MIN_TABLE_SIZE; i++){
+		assert(ENTRY_EMPTY(e->table[i]));
+	}
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
@@ -81,6 +93,7 @@ int main(){
 	floatobject_test();
 	symbolobject_test();
 	list_test();
+	env_test();
 
 	printf("Test Successful!!!\n");
 	return 0;
