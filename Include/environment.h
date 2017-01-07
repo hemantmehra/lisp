@@ -19,9 +19,11 @@ typedef struct{
 }Env;
 
 Env* new_env();
-void store(SymbolObject*, Object*);
-Object* lookup(SymbolObject*);
-#define ENTRY_EMPTY(e) ((e.key == NULL && e.val == NULL)? 1 : 0)
+void store(Env*, SymbolObject*, Object*);
+#define Store(e, sym, o) (store(e, sym, OBJECT_CAST(o)))
+Object* Lookup(Env*, SymbolObject*);
+
+#define ENTRY_EMPTY(e) (e.key == NULL && e.val == NULL)
 
 int hash(SymbolObject*);
 

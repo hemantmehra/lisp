@@ -83,6 +83,12 @@ void env_test(){
 	for(i = 0; i < MIN_TABLE_SIZE; i++){
 		assert(ENTRY_EMPTY(e->table[i]));
 	}
+
+	Store(e, Symbol("a"), Int(1));
+	Store(e, Symbol("ab"), Int(2));
+
+	assert(INT_EQ(Lookup(e, Symbol("a")), Int(1)));
+	assert(INT_EQ(Lookup(e, Symbol("ab")), Int(2)));
 }
 
 int main(){
