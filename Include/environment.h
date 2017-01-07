@@ -23,6 +23,8 @@ void store(Env*, SymbolObject*, Object*);
 #define Store(e, sym, o) (store(e, sym, OBJECT_CAST(o)))
 Object* Lookup(Env*, SymbolObject*);
 
+void resize(Env*);
+
 #define ENTRY_EMPTY(e) (e.key == NULL && e.val == NULL)
 
 int hash(SymbolObject*);

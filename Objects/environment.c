@@ -21,6 +21,27 @@ Env* new_env(){
 	return e;
 }
 
+void resize(Env* e){
+	Entry* prev_table;
+	size_t prev_size;
+	int i;
+
+	prev_table = e->table;
+	prev_size = e->size;
+
+	e->size = e->size * 2;
+	e->used = 0;
+	e->table = (Entry *) malloc(sizeof(Entry) * e->size);
+	memset(e->table, 0, sizeof(Entry) * e->size);
+
+	for(i = 0; i < prev_size; i++){
+		if(! ENTRY_EMPTY(prev_table[i])){
+			store(e, prev_table[i].key, prev_table[i].val);
+		}
+	}
+	free(prev_table);
+}
+
 void store(Env* e, SymbolObject* key, Object* val){
 	int index, j;
 
@@ -31,6 +52,7 @@ void store(Env* e, SymbolObject* key, Object* val){
 		if(ENTRY_EMPTY(e->table[j])){
 			e->table[j].key = key; 
 			e->table[j].val = val;
+			break;
 		}
 		else{ 
 			j = ((5 * j) + 1) % (e->size);
@@ -38,6 +60,8 @@ void store(Env* e, SymbolObject* key, Object* val){
 	}while(j != index);
 
 	e->used++;
+
+	if(e->used == (2 * e->size)/ 3) resize(e);
 }
 
 Object* Lookup(Env* e, SymbolObject* key){

@@ -86,9 +86,21 @@ void env_test(){
 
 	Store(e, Symbol("a"), Int(1));
 	Store(e, Symbol("ab"), Int(2));
+	Store(e, Symbol("aab"), Int(3));
+	Store(e, Symbol("aaab"), Int(4));
+	Store(e, Symbol("aaaab"), Int(5));
+
+	assert(e->used == 5);
 
 	assert(INT_EQ(Lookup(e, Symbol("a")), Int(1)));
 	assert(INT_EQ(Lookup(e, Symbol("ab")), Int(2)));
+	assert(INT_EQ(Lookup(e, Symbol("aab")), Int(3)));
+	assert(INT_EQ(Lookup(e, Symbol("aaab")), Int(4)));
+	assert(INT_EQ(Lookup(e, Symbol("aaaab")), Int(5)));
+
+	assert(INT_EQ(Lookup(e, Symbol("a")), Int(1)));
+	assert(e->size == MIN_TABLE_SIZE * 2);
+
 }
 
 int main(){
