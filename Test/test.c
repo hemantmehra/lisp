@@ -11,6 +11,7 @@
 #include "symbolobject.h"
 #include "list.h"
 #include "environment.h"
+#include "stringobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -98,9 +99,15 @@ void env_test(){
 	assert(INT_EQ(Lookup(e, Symbol("aaab")), Int(4)));
 	assert(INT_EQ(Lookup(e, Symbol("aaaab")), Int(5)));
 
-	assert(INT_EQ(Lookup(e, Symbol("a")), Int(1)));
 	assert(e->size == MIN_TABLE_SIZE * 2);
 
+}
+
+void stringobject_test(){
+	StringObject* s;
+	s = String("variable1");
+	assert(TYPE(s) == STRING);
+	assert(strcmp(STRING(s), "variable1") == 0);
 }
 
 int main(){
@@ -112,6 +119,7 @@ int main(){
 	symbolobject_test();
 	list_test();
 	env_test();
+	stringobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;
