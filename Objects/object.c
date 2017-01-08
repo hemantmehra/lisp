@@ -33,3 +33,4 @@ void del_object(Object* obj){
 		free(float_obj);
 	}
 }
+

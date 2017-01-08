@@ -12,6 +12,7 @@ typedef struct _float_object FloatObject;
 
 #define FLOAT_OBJECT_CAST(obj) ((FloatObject *) obj)
 #define FLOAT_VAL(obj) (FLOAT_OBJECT_CAST(obj)->val)
+#define FLOAT_EQ(obj1, obj2) (FLOAT_VAL(obj1) == FLOAT_VAL(obj2))
 
 FloatObject* new_float_object();
 FloatObject* Float(float);

@@ -13,7 +13,8 @@ HEADERS = \
 	$(IDIR)/symbolobject.h \
 	$(IDIR)/list.h \
 	$(IDIR)/environment.h \
-	$(IDIR)/stringobject.h
+	$(IDIR)/stringobject.h \
+	$(IDIR)/types.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -25,7 +26,8 @@ OBJECTS = \
 	$(ODIR)/symbolobject.o \
 	$(ODIR)/list.o \
 	$(ODIR)/environment.o \
-	$(ODIR)/stringobject.o
+	$(ODIR)/stringobject.o \
+	$(ODIR)/types.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -61,6 +63,9 @@ $(ODIR)/environment.o: $(ODIR)/environment.c $(HEADERS)
 
 $(ODIR)/stringobject.o: $(ODIR)/stringobject.c $(HEADERS)
 	gcc -c $(ODIR)/stringobject.c -o $(ODIR)/stringobject.o $(CFLAGS)
+
+$(ODIR)/types.o: $(ODIR)/types.c $(HEADERS)
+	gcc -c $(ODIR)/types.c -o $(ODIR)/types.o $(CFLAGS)
 
 
 clean:

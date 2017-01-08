@@ -12,6 +12,7 @@
 #include "list.h"
 #include "environment.h"
 #include "stringobject.h"
+#include "types.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -110,6 +111,25 @@ void stringobject_test(){
 	assert(strcmp(STRING(s), "variable1") == 0);
 }
 
+void object_eq_test(){
+	Object *l1, *l2;
+	
+	assert(OBJECT_EQ(Int(1), Int(1)));
+	assert(OBJECT_EQ(Float(2.125), Float(2.125)));
+	assert(OBJECT_EQ(Bool(FALSE), Bool(FALSE)));
+	assert(OBJECT_EQ(Symbol("sym"), Symbol("sym")));
+	assert(OBJECT_EQ(String("str"), String("str")));
+	assert(OBJECT_EQ(Nil(), Nil()));
+	assert(OBJECT_EQ(Cons(Int(4), Bool(TRUE)), Cons(Int(4), Bool(TRUE))));
+
+	l1 = List(4, Int(34), Bool(TRUE), Symbol("a"), String("s1"));
+	l2 = List(4, Int(34), Bool(TRUE), Symbol("a"), String("s2"));
+
+	assert(OBJECT_EQ(l1, l2));
+
+
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
@@ -120,6 +140,7 @@ int main(){
 	list_test();
 	env_test();
 	stringobject_test();
+	object_eq_test();
 
 	printf("Test Successful!!!\n");
 	return 0;

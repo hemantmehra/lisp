@@ -9,6 +9,7 @@ enum _object_type{
 	SYMBOL,
 	BOOLEAN,
 	STRING,
+	PRIM_PROC,
 	CLOSURE,
 	NIL
 };
@@ -25,7 +26,9 @@ struct _object {
 typedef struct _object Object;
 
 #define OBJECT_CAST(obj) ((Object *) obj)
+
 #define TYPE(obj) (OBJECT_CAST(obj)->type)
+
 
 void del_object(Object*);
 
