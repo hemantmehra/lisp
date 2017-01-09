@@ -14,7 +14,9 @@ HEADERS = \
 	$(IDIR)/list.h \
 	$(IDIR)/environment.h \
 	$(IDIR)/stringobject.h \
-	$(IDIR)/types.h
+	$(IDIR)/types.h \
+	$(IDIR)/primprocobject.h \
+	$(IDIR)/closureobject.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -27,7 +29,9 @@ OBJECTS = \
 	$(ODIR)/list.o \
 	$(ODIR)/environment.o \
 	$(ODIR)/stringobject.o \
-	$(ODIR)/types.o
+	$(ODIR)/types.o \
+	$(ODIR)/primprocobject.o \
+	$(ODIR)/closureobject.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -67,6 +71,11 @@ $(ODIR)/stringobject.o: $(ODIR)/stringobject.c $(HEADERS)
 $(ODIR)/types.o: $(ODIR)/types.c $(HEADERS)
 	gcc -c $(ODIR)/types.c -o $(ODIR)/types.o $(CFLAGS)
 
+$(ODIR)/primprocobject.o: $(ODIR)/primprocobject.c $(HEADERS)
+	gcc -c $(ODIR)/primprocobject.c -o $(ODIR)/primprocobject.o $(CFLAGS)
+
+$(ODIR)/closrueobject.o: $(ODIR)/closrueobject.c $(HEADERS)
+	gcc -c $(ODIR)/closrueobject.c -o $(ODIR)/closrueobject.o $(CFLAGS)
 
 clean:
 	rm $(OBJECTS) test.o

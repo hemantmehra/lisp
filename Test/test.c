@@ -13,6 +13,8 @@
 #include "environment.h"
 #include "stringobject.h"
 #include "types.h"
+#include "primprocobject.h"
+#include "closureobject.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -130,6 +132,27 @@ void object_eq_test(){
 
 }
 
+void primprocobject_test(){
+	PrimProcObject* p;
+	p = PrimProc(ADD);
+	assert(TYPE(p) == PRIM_PROC);
+	assert(PRIM_PROC_OP(p) == ADD);
+}
+
+void closureobject_test(){
+	ClosureObject* c;
+	Object *vars, *body;
+	Env* env;
+	vars = List(2, Symbol("x"), Symbol("y"));
+	body = List(3, Symbol("+"), Symbol("x"), Symbol("y"));
+	env = new_env();
+
+	c = Closure(vars, body, env);
+	assert(TYPE(c) == CLOSURE);
+	assert(OBJECT_EQ(CLOSURE_BOUND_VARS(c), vars));
+	assert(OBJECT_EQ(CLOSURE_BODY(c), body));
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
@@ -141,6 +164,8 @@ int main(){
 	env_test();
 	stringobject_test();
 	object_eq_test();
+	primprocobject_test();
+	closureobject_test();
 
 	printf("Test Successful!!!\n");
 	return 0;
