@@ -131,6 +131,19 @@ void object_eq_test(){
 
 
 }
+void macro_test(){
+	Object *l3,*l4,*l5,*l6;
+	assert (IS_SELF_EVAL(Int(4))==1);
+	assert(IS_VAR(Symbol("a")));
+	l3=List(3, Symbol("define"), Symbol("x"), Int(10));
+	assert(IS_DEF(l3)==1);
+	l4=List(4, Symbol("if"), Symbol("predicate"), Symbol("consq"), Symbol("alternate"));
+	l5=List(2,Symbol("cond"),Int(2));
+	l6=List(2,Symbol("quote"),Int(3));
+	assert(IS_QUOTE(l6));
+	assert(IS_IF(l4));
+	assert(IS_COND(l5));
+}
 
 void primprocobject_test(){
 	PrimProcObject* p;
@@ -166,7 +179,7 @@ int main(){
 	object_eq_test();
 	primprocobject_test();
 	closureobject_test();
-
+	macro_test();
 	printf("Test Successful!!!\n");
 	return 0;
 }
