@@ -12,11 +12,14 @@ typedef struct{
 	Object* val;
 }Entry;
 
-typedef struct{
+struct _env{
 	size_t size;
 	size_t used;
 	Entry* table;
-}Env;
+	struct _env* next_env;
+};
+
+typedef struct _env Env;
 
 Env* new_env();
 void store(Env*, SymbolObject*, Object*);

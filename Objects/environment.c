@@ -18,6 +18,7 @@ Env* new_env(){
 	e->used = 0;
 	e->table = (Entry *) malloc(sizeof(Entry) * MIN_TABLE_SIZE);
 	memset(e->table, 0, sizeof(Entry) * MIN_TABLE_SIZE);
+	e->next_env = NULL;
 	return e;
 }
 
@@ -78,6 +79,10 @@ Object* Lookup(Env* e, SymbolObject* key){
 			j = ((5 * j) + 1) % (e->size);
 
 	}while(j != index);
+
+	if(e->next_env != NULL){
+		return Lookup(e->next_env, key);
+	}
 
 	return NULL;
 }
