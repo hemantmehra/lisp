@@ -129,6 +129,19 @@ void object_eq_test(){
 
 
 }
+void eval_test(){
+	Object *l3,*l4,*l5,*l6;
+	assert (IS_SELF_EVAL(Int(4))==1);
+	assert(IS_VAR(Symbol("a")));
+	l3=List(3, Symbol("define"), Symbol("x"), Int(10));
+	assert(IS_DEF(l3)==1);
+	l4=List(4, Symbol("if"), Symbol("predicate"), Symbol("consq"), Symbol("alternate"));
+	l5=List(2,Symbol("cond"),Int(2));
+	l6=List(2,Symbol("quote"),Int(3));
+	assert(IS_QUOTE(l6));
+	assert(IS_IF(l4));
+	assert(IS_COND(l5));
+}
 
 int main(){
 	intobject_test();
@@ -141,7 +154,7 @@ int main(){
 	env_test();
 	stringobject_test();
 	object_eq_test();
-
+	eval_test();
 	printf("Test Successful!!!\n");
 	return 0;
 }

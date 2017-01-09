@@ -14,36 +14,15 @@ int hash(SymbolObject* s){
 Env* new_env(){
 	Env* e;
 	e = (Env *) malloc(sizeof(Env));
-	e->size = MIN_TABLE_SIZE;
+	e->size = *MIN_TABLE_SIZE;
 	e->used = 0;
 	e->table = (Entry *) malloc(sizeof(Entry) * MIN_TABLE_SIZE);
 	memset(e->table, 0, sizeof(Entry) * MIN_TABLE_SIZE);
 	return e;
 }
 
-void resize(Env* e){
-	Entry* prev_table;
-	size_t prev_size;
-	int i;
-
-	prev_table = e->table;
-	prev_size = e->size;
-
-	e->size = e->size * 2;
-	e->used = 0;
-	e->table = (Entry *) malloc(sizeof(Entry) * e->size);
-	memset(e->table, 0, sizeof(Entry) * e->size);
-
-	for(i = 0; i < prev_size; i++){
-		if(! ENTRY_EMPTY(prev_table[i])){
-			store(e, prev_table[i].key, prev_table[i].val);
-		}
-	}
-	free(prev_table);
-}
-
 void store(Env* e, SymbolObject* key, Object* val){
-	int index, j;
+	int index, j,a;
 
 	index = hash(key) % e->size;
 
@@ -60,8 +39,10 @@ void store(Env* e, SymbolObject* key, Object* val){
 	}while(j != index);
 
 	e->used++;
-
-	if(e->used == (2 * e->size)/ 3) resize(e);
+	a=((2*e->size)/3);
+	if(e->used=a)
+		{resize();
+		}
 }
 
 Object* Lookup(Env* e, SymbolObject* key){
@@ -80,4 +61,17 @@ Object* Lookup(Env* e, SymbolObject* key){
 	}while(j != index);
 
 	return NULL;
+}
+void resize(Env* e);
+{
+	int n;
+	n=e->size;
+	Entry *prev_table;
+prev_table=e->table;
+e->size=2*e->size;
+e->table = (Entry *) malloc(sizeof(Entry) *e->size);
+	memset(e->table, 0, sizeof(Entry) *e->size);
+for(i=0;i<n;i++)
+	store(Env* e,SymbolObject* prev_table[i].key,Object* prev_table[i].val);
+
 }
