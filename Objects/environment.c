@@ -14,7 +14,7 @@ int hash(SymbolObject* s){
 Env* new_env(){
 	Env* e;
 	e = (Env *) malloc(sizeof(Env));
-	e->size = *MIN_TABLE_SIZE;
+	e->size = MIN_TABLE_SIZE;
 	e->used = 0;
 	e->table = (Entry *) malloc(sizeof(Entry) * MIN_TABLE_SIZE);
 	memset(e->table, 0, sizeof(Entry) * MIN_TABLE_SIZE);
@@ -41,7 +41,7 @@ void store(Env* e, SymbolObject* key, Object* val){
 	e->used++;
 	a=((2*e->size)/3);
 	if(e->used=a)
-		{resize();
+		{resize(e);
 		}
 }
 
