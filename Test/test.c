@@ -167,7 +167,7 @@ void types_macro_test(){
 	assert(IS_COND_EXP(l5));
 	assert(IS_ELSE_CLAUSE(List(2, ELSE, Int(1))));
 	l7 = List(2, Symbol("test"), Symbol("exp"));
-	assert(OBJECT_EQ(CLAUSE_TEXT(l7), Symbol("test")));
+	assert(OBJECT_EQ(CLAUSE_TEST(l7), Symbol("test")));
 	assert(OBJECT_EQ(CLAUSE_EXP(l7), Symbol("exp")));
 
 	assert(IS_LAMBDA_EXP(List(3, LAMBDA, Symbol("vars"), Symbol("body"))));

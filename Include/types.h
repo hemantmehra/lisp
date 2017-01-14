@@ -45,7 +45,7 @@ int object_eq(Object*, Object*);
 #define IS_COND_EXP(exp) (SYMBOL_EQ(CAR(exp), COND))
 #define ELSE Symbol("else")
 #define IS_ELSE_CLAUSE(exp) (SYMBOL_EQ(CAR(exp), ELSE))
-#define CLAUSE_TEXT(clause) (CAR(clause))
+#define CLAUSE_TEST(clause) (CAR(clause))
 #define CLAUSE_EXP(clause) (CAR(CDR(clause)))
 
 #define LAMBDA Symbol("lambda")
