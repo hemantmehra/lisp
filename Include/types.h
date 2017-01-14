@@ -27,23 +27,29 @@ int object_eq(Object*, Object*);
 #define IS_SELF_EVAL(exp) (IS_INT(exp)||IS_FLOAT(exp)||IS_STRING(exp)||IS_NIL(exp)||IS_BOOL(exp))
 #define IS_VAR(exp) (IS_SYMBOL(exp))
 
-#define IS_DEF_EXP(exp) (SYMBOL_EQ(CAR(exp),Symbol("define")))
+#define DEFINE Symbol("define")
+#define IS_DEF_EXP(exp) (SYMBOL_EQ(CAR(exp), DEFINE))
 #define DEF_VAR(exp) (CAR(CDR(exp)))
 #define DEF_VAL(exp) (CAR(CDR(CDR(exp))))
 
-#define IS_QUOTE_EXP(exp) (SYMBOL_EQ(CAR(exp),Symbol("quote")))
+#define QUOTE Symbol("quote")
+#define IS_QUOTE_EXP(exp) (SYMBOL_EQ(CAR(exp), QUOTE))
 
-#define IS_IF_EXP(exp) (SYMBOL_EQ(CAR(exp),Symbol("if")))
+#define IF Symbol("if")
+#define IS_IF_EXP(exp) (SYMBOL_EQ(CAR(exp), IF))
 #define IF_PRED(exp) (CAR(CDR(exp)))
 #define IF_CONSQ(exp) (CAR(CDR(CDR(exp))))
 #define IF_ALTER(exp) (CAR(CDR(CDR(CDR(exp)))))
 
-#define IS_COND_EXP(exp) (SYMBOL_EQ(CAR(exp),Symbol("cond")))
-#define IS_ELSE_CLAUSE(exp) (SYMBOL_EQ(CAR(exp), Symbol("else")))
+#define COND Symbol("cond")
+#define IS_COND_EXP(exp) (SYMBOL_EQ(CAR(exp), COND))
+#define ELSE Symbol("else")
+#define IS_ELSE_CLAUSE(exp) (SYMBOL_EQ(CAR(exp), ELSE))
 #define CLAUSE_TEXT(clause) (CAR(clause))
 #define CLAUSE_EXP(clause) (CAR(CDR(clause)))
 
-#define IS_LAMBDA_EXP(exp) (SYMBOL_EQ(CAR(exp), Symbol("lambda")))
+#define LAMBDA Symbol("lambda")
+#define IS_LAMBDA_EXP(exp) (SYMBOL_EQ(CAR(exp), LAMBDA))
 
 
 #endif

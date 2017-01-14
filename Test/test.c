@@ -148,14 +148,14 @@ void types_macro_test(){
 
 	assert (IS_SELF_EVAL(Int(4))==1);
 	assert(IS_VAR(Symbol("a")));
-	l3=List(3, Symbol("define"), Symbol("x"), Int(10));
+	l3=List(3, DEFINE, Symbol("x"), Int(10));
 	assert(IS_DEF_EXP(l3)==1);
 	assert(OBJECT_EQ(DEF_VAR(l3), Symbol("x")));
 	assert(OBJECT_EQ(DEF_VAL(l3), Int(10)));
 
-	l4=List(4, Symbol("if"), Symbol("predicate"), Symbol("consq"), Symbol("alternate"));
-	l5=List(2,Symbol("cond"),Int(2));
-	l6=List(2,Symbol("quote"),Int(3));
+	l4=List(4, IF, Symbol("predicate"), Symbol("consq"), Symbol("alternate"));
+	l5=List(2, COND,Int(2));
+	l6=List(2, QUOTE,Int(3));
 
 	assert(IS_QUOTE_EXP(l6));
 
@@ -165,12 +165,12 @@ void types_macro_test(){
 	assert(OBJECT_EQ(IF_ALTER(l4), Symbol("alternate")));
 
 	assert(IS_COND_EXP(l5));
-	assert(IS_ELSE_CLAUSE(List(2, Symbol("else"), Int(1))));
+	assert(IS_ELSE_CLAUSE(List(2, ELSE, Int(1))));
 	l7 = List(2, Symbol("test"), Symbol("exp"));
 	assert(OBJECT_EQ(CLAUSE_TEXT(l7), Symbol("test")));
 	assert(OBJECT_EQ(CLAUSE_EXP(l7), Symbol("exp")));
 
-	assert(IS_LAMBDA_EXP(List(3, Symbol("lambda"), Symbol("vars"), Symbol("body"))));
+	assert(IS_LAMBDA_EXP(List(3, LAMBDA, Symbol("vars"), Symbol("body"))));
 }
 
 void primprocobject_test(){
