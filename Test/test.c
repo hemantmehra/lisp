@@ -131,18 +131,46 @@ void object_eq_test(){
 
 
 }
-void macro_test(){
-	Object *l3,*l4,*l5,*l6;
+void types_macro_test(){
+	Object *l3,*l4,*l5,*l6, *l7;
+
+	assert(IS_INT(Int(12)));
+	assert(IS_FLOAT(Float(12.125)));
+	assert(IS_CONS(Cons(Int(12), Float(12.34))));
+	assert(IS_SYMBOL(Symbol("var")));
+	assert(IS_STRING(String("str1")));
+	assert(IS_NIL(Nil()));
+	assert(IS_BOOL(Bool(TRUE)));
+	assert(IS_PRIM_PROC(PrimProc(SUB)));
+	assert(IS_CLOSURE(Closure(List(2, Symbol("x"), Symbol("y")),
+		List(3, Symbol("+"), Symbol("x"), Symbol("y")),
+		new_env())));
+
 	assert (IS_SELF_EVAL(Int(4))==1);
 	assert(IS_VAR(Symbol("a")));
 	l3=List(3, Symbol("define"), Symbol("x"), Int(10));
-	assert(IS_DEF(l3)==1);
+	assert(IS_DEF_EXP(l3)==1);
+	assert(OBJECT_EQ(DEF_VAR(l3), Symbol("x")));
+	assert(OBJECT_EQ(DEF_VAL(l3), Int(10)));
+
 	l4=List(4, Symbol("if"), Symbol("predicate"), Symbol("consq"), Symbol("alternate"));
 	l5=List(2,Symbol("cond"),Int(2));
 	l6=List(2,Symbol("quote"),Int(3));
-	assert(IS_QUOTE(l6));
-	assert(IS_IF(l4));
-	assert(IS_COND(l5));
+
+	assert(IS_QUOTE_EXP(l6));
+
+	assert(IS_IF_EXP(l4));
+	assert(OBJECT_EQ(IF_PRED(l4), Symbol("predicate")));
+	assert(OBJECT_EQ(IF_CONSQ(l4), Symbol("consq")));
+	assert(OBJECT_EQ(IF_ALTER(l4), Symbol("alternate")));
+
+	assert(IS_COND_EXP(l5));
+	assert(IS_ELSE_CLAUSE(List(2, Symbol("else"), Int(1))));
+	l7 = List(2, Symbol("test"), Symbol("exp"));
+	assert(OBJECT_EQ(CLAUSE_TEXT(l7), Symbol("test")));
+	assert(OBJECT_EQ(CLAUSE_EXP(l7), Symbol("exp")));
+
+	assert(IS_LAMBDA_EXP(List(3, Symbol("lambda"), Symbol("vars"), Symbol("body"))));
 }
 
 void primprocobject_test(){
@@ -179,7 +207,7 @@ int main(){
 	object_eq_test();
 	primprocobject_test();
 	closureobject_test();
-	macro_test();
+	types_macro_test();
 	printf("Test Successful!!!\n");
 	return 0;
 }
