@@ -50,6 +50,8 @@ int object_eq(Object*, Object*);
 
 #define LAMBDA Symbol("lambda")
 #define IS_LAMBDA_EXP(exp) (SYMBOL_EQ(CAR(exp), LAMBDA))
+#define LAMBDA_BOUND_VARS(exp) (CAR(CDR(exp)))
+#define LAMBDA_BODY(exp) (CAR(CDR(CDR(exp))))
 
 
 #endif

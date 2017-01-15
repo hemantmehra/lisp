@@ -132,7 +132,7 @@ void object_eq_test(){
 
 }
 void types_macro_test(){
-	Object *l3,*l4,*l5,*l6, *l7;
+	Object *l3,*l4,*l5,*l6, *l7, *l8;
 
 	assert(IS_INT(Int(12)));
 	assert(IS_FLOAT(Float(12.125)));
@@ -170,7 +170,10 @@ void types_macro_test(){
 	assert(OBJECT_EQ(CLAUSE_TEST(l7), Symbol("test")));
 	assert(OBJECT_EQ(CLAUSE_EXP(l7), Symbol("exp")));
 
-	assert(IS_LAMBDA_EXP(List(3, LAMBDA, Symbol("vars"), Symbol("body"))));
+	l8 = List(3, LAMBDA, Symbol("vars"), Symbol("body"));
+	assert(IS_LAMBDA_EXP(l8));
+	assert(OBJECT_EQ(LAMBDA_BOUND_VARS(l8), Symbol("vars")));
+	assert(OBJECT_EQ(LAMBDA_BODY(l8), Symbol("body")));
 }
 
 void primprocobject_test(){
