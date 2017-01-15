@@ -15,6 +15,7 @@
 #include "types.h"
 #include "primprocobject.h"
 #include "closureobject.h"
+#include "eval_apply.h"
 
 void intobject_test(){
 	IntObject *i1;
@@ -197,6 +198,10 @@ void closureobject_test(){
 	assert(OBJECT_EQ(CLOSURE_BODY(c), body));
 }
 
+void eval_test(){
+	assert(OBJECT_EQ(Eval(Int(12), new_env()), Int(12)));
+}
+
 int main(){
 	intobject_test();
 	consobject_test();
@@ -211,6 +216,7 @@ int main(){
 	primprocobject_test();
 	closureobject_test();
 	types_macro_test();
+	eval_test();
 	printf("Test Successful!!!\n");
 	return 0;
 }
