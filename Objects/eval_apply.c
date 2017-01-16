@@ -17,7 +17,7 @@ Object* eval(Object* exp, Env* env){
 		return Lookup(env, SYMBOL_OBJECT_CAST(exp));
 	}
 	else if(IS_QUOTE_EXP(exp)){
-		return CDR(exp);
+		return CAR(CDR(exp));
 	}
 	else if(IS_DEF_EXP(exp)){
 		Store(env, SYMBOL_OBJECT_CAST(DEF_VAR(exp)), eval(DEF_VAL(exp), env));
@@ -93,6 +93,7 @@ Object* ev_list(Object* l, Env* env){
 	else{
 		p = l;
 		node = Node(eval(CAR(p), env));
+		p = CDR(p);
 		new_l = OBJECT_CAST(node);
 		n = new_l;
 		while(!IS_NIL(p)){

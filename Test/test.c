@@ -198,9 +198,35 @@ void closureobject_test(){
 	assert(OBJECT_EQ(CLOSURE_BODY(c), body));
 }
 
-void eval_test(){
-	assert(OBJECT_EQ(Eval(Int(12), new_env()), Int(12)));
+void ev_list_test(){
+	Object *l1, *l2;
+	Env* env;
+	l1 = List(3, Float(12.125), Int(10), Bool(TRUE));
+	l2 = ev_list(l1, env);
+	assert(OBJECT_EQ(l1, l2));
 }
+
+void eval_test(){
+	Object *l1, *l2, *l3, *l4;
+	Env* env;
+	env = new_env();
+	assert(OBJECT_EQ(Eval(Int(12), env), Int(12)));
+
+	l1 = List(3, DEFINE, Symbol("x"), Int(10));
+	assert(OBJECT_EQ(Eval(l1, env), Symbol("x")));
+	assert(OBJECT_EQ(Eval(Symbol("x"), env), Int(10)));
+
+	l2 = List(2, QUOTE, Symbol("x"));
+	assert(OBJECT_EQ(Eval(l2, env), Symbol("x")));
+
+	Store(env, Symbol("+"), PrimProc(ADD));
+	
+	l4 = List(3, Symbol("+"), Int(10), Int(12));
+	//assert(OBJECT_EQ(Eval(l4, env), Int(22)));
+	
+}
+
+
 
 int main(){
 	intobject_test();
@@ -216,6 +242,7 @@ int main(){
 	primprocobject_test();
 	closureobject_test();
 	types_macro_test();
+	ev_list_test();
 	eval_test();
 	printf("Test Successful!!!\n");
 	return 0;
