@@ -207,10 +207,24 @@ void ev_list_test(){
 }
 
 void prim_op_test(){
-	Object *l1, *l2;
+	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9;
 	l1 = List(3, Int(1), Int(2), Int(3));
 	l2 = add(l1);
 	assert(OBJECT_EQ(l2, Int(6)));
+	l3=List(2,Int(20),Int(10));
+	l4=sub(l3);
+	assert(OBJECT_EQ(l4, Int(10)));
+	l5=mul(l1);
+	assert(OBJECT_EQ(l5,Int(6)));
+	l6=List(2,Int(20),Int(10));
+
+	l7=div(l6);
+	assert(OBJECT_EQ(l7,Int(2)));
+	
+	l8=List(2,Int(13),Int(4));
+    l9=mod(l8);
+	assert(OBJECT_EQ(l9,Int(1)));
+	
 }
 
 void eval_clause_test(){
@@ -226,6 +240,11 @@ void eval_clause_test(){
 	c = List(2, Bool(TRUE), Int(1));
 	assert(OBJECT_EQ(eval_clause(c, env), Int(1)));	
 }
+
+void eval_cond_test(){
+
+}
+
 void eval_test(){
 	Object *l1, *l2, *l3, *l4, *l5;
 	Env* env;
@@ -266,6 +285,7 @@ int main(){
 	types_macro_test();
 	ev_list_test();
 	prim_op_test();
+	eval_cond_test();
 	eval_clause_test();
 	eval_test();
 	printf("Test Successful!!!\n");
