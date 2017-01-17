@@ -213,6 +213,19 @@ void prim_op_test(){
 	assert(OBJECT_EQ(l2, Int(6)));
 }
 
+void eval_clause_test(){
+	Object *c;
+	Env*  env;
+	env = new_env();
+	c = List(2, ELSE, Int(1));
+	assert(OBJECT_EQ(eval_clause(c, env), Int(1)));
+
+	c = List(2, Bool(FALSE), Int(1));
+	assert(OBJECT_EQ(eval_clause(c, env), Nil()));
+
+	c = List(2, Bool(TRUE), Int(1));
+	assert(OBJECT_EQ(eval_clause(c, env), Int(1)));	
+}
 void eval_test(){
 	Object *l1, *l2, *l3, *l4, *l5;
 	Env* env;
@@ -253,6 +266,7 @@ int main(){
 	types_macro_test();
 	ev_list_test();
 	prim_op_test();
+	eval_clause_test();
 	eval_test();
 	printf("Test Successful!!!\n");
 	return 0;
