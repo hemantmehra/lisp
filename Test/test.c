@@ -214,7 +214,7 @@ void prim_op_test(){
 }
 
 void eval_test(){
-	Object *l1, *l2, *l3, *l4;
+	Object *l1, *l2, *l3, *l4, *l5;
 	Env* env;
 	env = new_env();
 	assert(OBJECT_EQ(Eval(Int(12), env), Int(12)));
@@ -230,7 +230,9 @@ void eval_test(){
 	
 	l4 = List(3, Symbol("+"), Int(10), Int(12));
 	assert(OBJECT_EQ(Eval(l4, env), Int(22)));
-	
+
+	l5 = List(4, IF, Bool(FALSE), String("T"), String("F"));
+	assert(OBJECT_EQ(Eval(l5, env), String("F")));
 }
 
 
