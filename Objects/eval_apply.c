@@ -38,7 +38,7 @@ Object* eval(Object* exp, Env* env){
 		return OBJECT_CAST(Closure(LAMBDA_BOUND_VARS(exp), LAMBDA_BODY(exp), env));
 	}
 	else{
-		return apply(CAR(exp), ev_list(CDR(exp), env));
+		return apply(eval(CAR(exp), env), ev_list(CDR(exp), env));
 	}
 }
 

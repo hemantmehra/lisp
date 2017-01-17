@@ -206,6 +206,13 @@ void ev_list_test(){
 	assert(OBJECT_EQ(l1, l2));
 }
 
+void prim_op_test(){
+	Object *l1, *l2;
+	l1 = List(3, Int(1), Int(2), Int(3));
+	l2 = add(l1);
+	assert(OBJECT_EQ(l2, Int(6)));
+}
+
 void eval_test(){
 	Object *l1, *l2, *l3, *l4;
 	Env* env;
@@ -222,7 +229,7 @@ void eval_test(){
 	Store(env, Symbol("+"), PrimProc(ADD));
 	
 	l4 = List(3, Symbol("+"), Int(10), Int(12));
-	//assert(OBJECT_EQ(Eval(l4, env), Int(22)));
+	assert(OBJECT_EQ(Eval(l4, env), Int(22)));
 	
 }
 
@@ -243,6 +250,7 @@ int main(){
 	closureobject_test();
 	types_macro_test();
 	ev_list_test();
+	prim_op_test();
 	eval_test();
 	printf("Test Successful!!!\n");
 	return 0;
