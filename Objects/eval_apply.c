@@ -269,7 +269,7 @@ Object* bin_div(Object* obj1, Object* obj2){
 }
 
 Object* mod(Object* args){
-	return bin_mod(OBJECT_CAST(CAR(args)), OBJECT_CAST(CDR(args)));
+	return bin_mod(OBJECT_CAST(CAR(args)), OBJECT_CAST(CAR(CDR(args))));
 }
 
 Object* bin_mod(Object* obj1, Object* obj2){
