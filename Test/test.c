@@ -242,14 +242,14 @@ void eval_clause_test(){
 }
 
 void eval_cond_test(){
-Object *l1,*C1,*C2,*C3;
+	Object *l1,*C1,*C2,*C3;
 	Env*  env;
 	env=new_env();
-C1=List(2,FALSE,Int(0));
-C2=List(2,TRUE,Int(1));
-C3=List(2,TRUE,Int(2));
-l1=List(3,C1,C2,C3);
-assert(OBJECT_EQ(eval_cond(l1,env),Int(1)));
+	C1=List(2, Bool(FALSE),Int(0));
+	C2=List(2,Bool(TRUE),Int(1));
+	C3=List(2, Bool(TRUE),Int(2));
+	l1=List(4, COND,C1,C2,C3);
+	assert(OBJECT_EQ(eval_cond(l1,env),Int(1)));
 }
 
 
