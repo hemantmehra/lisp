@@ -267,7 +267,7 @@ void eval_cond_test(){
 
 
 void eval_test(){
-	Object *l1, *l2, *l3, *l4, *l5, *l6;
+	Object *l1, *l2, *l3, *l4, *l5, *l6,*l7,*l8,*l9;
 	Env* env;
 	env = new_env();
 	assert(OBJECT_EQ(Eval(Int(12), env), Int(12)));
@@ -291,6 +291,11 @@ void eval_test(){
 	Object* c = Eval(l6, env);
 	assert(OBJECT_EQ(CLOSURE_BOUND_VARS(c), List(1, Symbol("x"))));
 	assert(OBJECT_EQ(CLOSURE_BODY(c), List(3, Symbol("+"), Symbol("x"), Int(1))));
+
+l7=List(3,Symbol("+"),Symbol("x"),Int(3));
+l8=List(3,LAMBDA,List(1,Symbol("x")),l7);
+l9=List(2,l8,Int(4));
+assert(INT_EQ(Eval(l9,env),Int(7)));
 }
 
 
