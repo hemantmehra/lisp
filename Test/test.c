@@ -254,7 +254,7 @@ void eval_cond_test(){
 
 
 void eval_test(){
-	Object *l1, *l2, *l3, *l4, *l5;
+	Object *l1, *l2, *l3, *l4, *l5, *l6;
 	Env* env;
 	env = new_env();
 	assert(OBJECT_EQ(Eval(Int(12), env), Int(12)));
@@ -273,6 +273,11 @@ void eval_test(){
 
 	l5 = List(4, IF, Bool(FALSE), String("T"), String("F"));
 	assert(OBJECT_EQ(Eval(l5, env), String("F")));
+
+	l6 = List(4, LAMBDA, List(1, Symbol("x")), List(3, Symbol("+"), Symbol("x"), Int(1)));
+	Object* c = Eval(l6, env);
+	assert(OBJECT_EQ(CLOSURE_BOUND_VARS(c), List(1, Symbol("x"))));
+	assert(OBJECT_EQ(CLOSURE_BODY(c), List(3, Symbol("+"), Symbol("x"), Int(1))));
 }
 
 
