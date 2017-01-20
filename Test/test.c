@@ -226,6 +226,19 @@ void prim_op_test(){
 	assert(OBJECT_EQ(l9,Int(1)));
 	
 }
+void extend_env_test(){
+Object *l1,*l2;
+Env *ne,*e;
+e=new_env();
+IntObject *x,*y;
+l1=List(2,Symbol("x"),Symbol("y"));
+l2=List(2,Int(3),Int(4));
+ne=extend_env(e,l1,l2);
+x=Eval(Symbol("x"),ne);
+assert(INT_EQ(x,Int(3)));
+y=Eval(Symbol("y"),ne);
+assert(INT_EQ(y,Int(4)));
+}
 
 void eval_clause_test(){
 	Object *c;
@@ -298,6 +311,7 @@ int main(){
 	types_macro_test();
 	ev_list_test();
 	prim_op_test();
+	extend_env_test();
 	eval_cond_test();
 	eval_clause_test();
 	eval_test();
