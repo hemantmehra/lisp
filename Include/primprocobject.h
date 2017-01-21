@@ -4,11 +4,15 @@
 #include "object.h"
 
 typedef enum{
-	ADD,
-	SUB,
-	MUL,
-	DIV,
-	MOD
+	ADD_OP,
+	SUB_OP,
+	MUL_OP,
+	DIV_OP,
+	MOD_OP,
+	CONS_OP,
+	CAR_OP,
+	CDR_OP,
+	LIST_OP
 } PrimitiveOp;
 
 typedef struct{

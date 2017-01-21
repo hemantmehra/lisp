@@ -142,7 +142,7 @@ void types_macro_test(){
 	assert(IS_STRING(String("str1")));
 	assert(IS_NIL(Nil()));
 	assert(IS_BOOL(Bool(TRUE)));
-	assert(IS_PRIM_PROC(PrimProc(SUB)));
+	assert(IS_PRIM_PROC(PrimProc(SUB_OP)));
 	assert(IS_CLOSURE(Closure(List(2, Symbol("x"), Symbol("y")),
 		List(3, Symbol("+"), Symbol("x"), Symbol("y")),
 		new_env())));
@@ -179,9 +179,9 @@ void types_macro_test(){
 
 void primprocobject_test(){
 	PrimProcObject* p;
-	p = PrimProc(ADD);
+	p = PrimProc(ADD_OP);
 	assert(TYPE(p) == PRIM_PROC);
-	assert(PRIM_PROC_OP(p) == ADD);
+	assert(PRIM_PROC_OP(p) == ADD_OP);
 }
 
 void closureobject_test(){
@@ -207,7 +207,7 @@ void ev_list_test(){
 }
 
 void prim_op_test(){
-	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9;
+	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9, *l10, *l11, *l12;
 	l1 = List(3, Int(1), Int(2), Int(3));
 	l2 = add(l1);
 	assert(OBJECT_EQ(l2, Int(6)));
@@ -224,20 +224,24 @@ void prim_op_test(){
 	l8=List(2,Int(13),Int(4));
     l9=mod(l8);
 	assert(OBJECT_EQ(l9,Int(1)));
+
+	l10 = List(2, Int(10), Int(12));
+	l11 = cons(l10);
+	assert(OBJECT_EQ(car(l11), Int(10)) && OBJECT_EQ(cdr(l11), Int(12)));
+
+	l12 = list(l1);
+	assert(OBJECT_EQ(l12, l1));
 	
 }
 void extend_env_test(){
-Object *l1,*l2;
-Env *ne,*e;
-e=new_env();
-IntObject *x,*y;
-l1=List(2,Symbol("x"),Symbol("y"));
-l2=List(2,Int(3),Int(4));
-ne=extend_env(e,l1,l2);
-x=Eval(Symbol("x"),ne);
-assert(INT_EQ(x,Int(3)));
-y=Eval(Symbol("y"),ne);
-assert(INT_EQ(y,Int(4)));
+	Object *l1,*l2;
+	Env *ne,*e;
+	e=new_env();
+	l1=List(2,Symbol("x"),Symbol("y"));
+	l2=List(2,Int(3),Int(4));
+	ne=extend_env(e,l1,l2);
+	assert(INT_EQ(Eval(Symbol("x"),ne), Int(3)));
+	assert(INT_EQ(Eval(Symbol("y"),ne), Int(4)));
 }
 
 void eval_clause_test(){
@@ -279,7 +283,7 @@ void eval_test(){
 	l2 = List(2, QUOTE, Symbol("x"));
 	assert(OBJECT_EQ(Eval(l2, env), Symbol("x")));
 
-	Store(env, Symbol("+"), PrimProc(ADD));
+	Store(env, Symbol("+"), PrimProc(ADD_OP));
 	
 	l4 = List(3, Symbol("+"), Int(10), Int(12));
 	assert(OBJECT_EQ(Eval(l4, env), Int(22)));
@@ -292,10 +296,10 @@ void eval_test(){
 	assert(OBJECT_EQ(CLOSURE_BOUND_VARS(c), List(1, Symbol("x"))));
 	assert(OBJECT_EQ(CLOSURE_BODY(c), List(3, Symbol("+"), Symbol("x"), Int(1))));
 
-l7=List(3,Symbol("+"),Symbol("x"),Int(3));
-l8=List(3,LAMBDA,List(1,Symbol("x")),l7);
-l9=List(2,l8,Int(4));
-assert(INT_EQ(Eval(l9,env),Int(7)));
+	l7=List(3,Symbol("+"),Symbol("x"),Int(3));
+	l8=List(3,LAMBDA,List(1,Symbol("x")),l7);
+	l9=List(2,l8,Int(4));
+	assert(INT_EQ(Eval(l9,env),Int(7)));
 }
 
 

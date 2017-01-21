@@ -23,6 +23,10 @@ Object* bin_sub(Object*, Object*);
 Object* bin_mul(Object*, Object*);
 Object* bin_div(Object*, Object*);
 Object* bin_mod(Object*, Object*);
+Object* cons(Object*);
+Object* car(Object*);
+Object* cdr(Object*);
+Object* list(Object*);
 
 Env* extend_env(Env*, Object*, Object*);
 

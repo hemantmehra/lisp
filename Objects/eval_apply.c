@@ -124,11 +124,15 @@ Env* extend_env(Env* env, Object* bound_vars, Object* args){
 
 Object* apply_prim(Object* proc, Object* args){
 	switch(PRIM_PROC_OP(proc)){
-		case ADD: return add(args);
-		case SUB: return sub(args);
-		case MUL: return mul(args);
-		case DIV: return div(args);
-		case MOD: return mod(args);
+		case ADD_OP: return add(args);
+		case SUB_OP: return sub(args);
+		case MUL_OP: return mul(args);
+		case DIV_OP: return div(args);
+		case MOD_OP: return mod(args);
+		case CONS_OP: return cons(args);
+		case CAR_OP: return car(args);
+		case CDR_OP: return cdr(args);
+		case LIST_OP: return list(args);
 	}
 }
 
@@ -274,5 +278,23 @@ Object* mod(Object* args){
 
 Object* bin_mod(Object* obj1, Object* obj2){
 	return OBJECT_CAST(Int(INT_VAL(obj1) % INT_VAL(obj2)));
+}
+
+Object* cons(Object* args){
+	ConsObject* c;
+	c = Cons(CAR(args), CAR(CDR(args)));
+	return OBJECT_CAST(c);
+}
+
+Object* car(Object* args){
+	return OBJECT_CAST(CAR(args));
+}
+
+Object* cdr(Object* args){
+	return OBJECT_CAST(CDR(args));
+}
+
+Object* list(Object* args){
+	return args;
 }
 
