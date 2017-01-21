@@ -307,7 +307,7 @@ void eval_test(){
 
 void basic_prog_test(){
 	Object *func, *func_body, *bound_vars, *lambda, 
-		*appl1, *appl2;
+		*appl1, *appl2,*if_exp;
 	Env* env;
 	env = new_env();
 
@@ -340,6 +340,25 @@ void basic_prog_test(){
 
 	appl2 = List(2, Symbol("sqr"), Int(21));
 	assert(OBJECT_EQ(Eval(appl2, env), Int(441)));	
+	/* Fact function
+	(define fact
+	       (lambda (n) 
+	       	   (if n (* n (fact(- n 1)) 1)))
+
+	      (fact 0) should eval to 1
+	       (fact 5) should eval to 120
+	  */
+	bound_vars = List(1, Symbol("n"));
+	if_exp=List(4,Symbol("if"),Symbol("n"),List(3,Symbol("*"),Symbol("n"),List(2, Symbol("fact"), List(3, Symbol("-"), Symbol("n"), Int(1)))),Int(1));
+	lambda = List(3, LAMBDA, bound_vars,if_exp);
+	func=List(3,DEFINE,Symbol("fact"),lambda);
+	Eval(func, env);
+
+	appl1=List(2, Symbol("fact"), Int(0));
+	assert(OBJECT_EQ(Eval(appl1, env), Int(1)));
+
+	appl2=List(2, Symbol("fact"), Int(5));
+	assert(OBJECT_EQ(Eval(appl2, env), Int(120)));
 }
 
 
