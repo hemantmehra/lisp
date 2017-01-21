@@ -359,6 +359,31 @@ void basic_prog_test(){
 
 	appl2=List(2, Symbol("fact"), Int(5));
 	assert(OBJECT_EQ(Eval(appl2, env), Int(120)));
+	/* sum of sqr
+	(define sos
+       (lambda (x y)
+             (+ (sqr x) (sqr y))))
+     */
+    bound_vars=List(2,Symbol("x"),Symbol("y"));
+    func_body=List(3,Symbol("+"),List(2,Symbol("sqr"),Symbol("x")),List(2,Symbol("sqr"),Symbol("y")));
+    lambda=List(3,LAMBDA,bound_vars,func_body);
+    func=List(3,DEFINE,Symbol("sos"),lambda);
+Eval(func, env);
+
+	appl1=List(3, Symbol("sos"), Int(2),Int(3));
+	assert(OBJECT_EQ(Eval(appl1, env), Int(13)));
+
+	appl2=List(3, Symbol("sos"), Int(1),Int(2));
+	assert(OBJECT_EQ(Eval(appl2, env), Int(5)));
+
+
+
+
+
+
+
+
+
 }
 
 
