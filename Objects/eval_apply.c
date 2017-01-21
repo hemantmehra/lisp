@@ -24,7 +24,7 @@ Object* eval(Object* exp, Env* env){
 		return DEF_VAR(exp);
 	}
 	else if(IS_IF_EXP(exp)){
-		if(OBJECT_EQ(eval(IF_PRED(exp), env), Bool(TRUE))){
+		if(OBJECT_BOOL_VAL(eval(IF_PRED(exp), env)) == TRUE){
 			return eval(IF_CONSQ(exp), env);
 		}
 		else{

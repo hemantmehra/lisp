@@ -46,6 +46,9 @@ void boolobject_test(){
 	assert(TYPE(b1) == BOOLEAN && TYPE(b2) == BOOLEAN);
 	assert(BOOL_VAL(b1) == TRUE);
 	assert(BOOL_VAL(b2) == FALSE);
+	assert(OBJECT_BOOL_VAL(Int(0)) == FALSE);
+	assert(OBJECT_BOOL_VAL(Int(1)) == TRUE);
+	assert(OBJECT_BOOL_VAL(Bool(FALSE)) == FALSE);
 }
 
 void nilobject_test(){

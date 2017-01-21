@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "object.h"
+#include "intobject.h"
 #include "boolobject.h"
 
 BoolObject* new_bool_object(){
@@ -15,4 +16,13 @@ BoolObject* Bool(int val){
 	if(val) bool_obj->val = TRUE;
 	else bool_obj->val = FALSE;
 	return bool_obj;
+}
+
+BoolType ObjectBoolVal(Object* obj){
+	switch(TYPE(obj)){
+		case BOOLEAN: return BOOL_VAL(obj);
+		case INTEGER: return INT_VAL(obj)? TRUE : FALSE;
+		case NIL: return FALSE;
+		default: return FALSE; 
+	}
 }
