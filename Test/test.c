@@ -302,6 +302,43 @@ void eval_test(){
 	assert(INT_EQ(Eval(l9,env),Int(7)));
 }
 
+void basic_prog_test(){
+	Object *func, *func_body, *bound_vars, *lambda, 
+		*appl1, *appl2;
+	Env* env;
+	env = new_env();
+
+	Store(env, Symbol("+"), PrimProc(ADD_OP));
+	Store(env, Symbol("-"), PrimProc(SUB_OP));
+	Store(env, Symbol("*"), PrimProc(MUL_OP));
+	Store(env, Symbol("/"), PrimProc(DIV_OP));
+	Store(env, Symbol("rem"), PrimProc(MOD_OP));
+	Store(env, Symbol("cons"), PrimProc(CONS_OP));
+	Store(env, Symbol("car"), PrimProc(CAR_OP));
+	Store(env, Symbol("cdr"), PrimProc(CDR_OP));
+	Store(env, Symbol("list"), PrimProc(LIST_OP));
+
+
+	/*	Sqaure Function test
+	 	(define sqr 
+			(lambda (x)
+					(* x x)))
+		(sqr 9) should eval to 81
+		(sqr 21) should eval to 441
+	*/
+	func_body = List(3, Symbol("*"), Symbol("x"), Symbol("x"));
+	bound_vars = List(1, Symbol("x"));
+	lambda = List(3, LAMBDA, bound_vars, func_body);
+	func = List(3, DEFINE, Symbol("sqr"), lambda);
+	Eval(func, env);
+
+	appl1 = List(2, Symbol("sqr"), Int(9));
+	assert(OBJECT_EQ(Eval(appl1, env), Int(81)));
+
+	appl2 = List(2, Symbol("sqr"), Int(21));
+	assert(OBJECT_EQ(Eval(appl2, env), Int(441)));	
+}
+
 
 
 int main(){
@@ -324,6 +361,7 @@ int main(){
 	eval_cond_test();
 	eval_clause_test();
 	eval_test();
+	basic_prog_test();
 	printf("Test Successful!!!\n");
 	return 0;
 }
