@@ -18,14 +18,18 @@
 #include "eval_apply.h"
 
 void intobject_test(){
+	printf("IntObject test...");
 	IntObject *i1;
 	i1 = Int(45);
 	assert(TYPE(i1) == INTEGER);
 	assert(INT_VAL(i1) == 45);
+
+	printf("Done\n");
 }
 
 
 void consobject_test(){
+	printf("ConsObject test...");
 	IntObject *i1, *i2;
 	ConsObject* cobj;
 
@@ -36,9 +40,12 @@ void consobject_test(){
 	assert(TYPE(cobj) == CONS);
 	assert(INT_VAL(CAR(cobj)) == 45);
 	assert(INT_VAL(CDR(cobj)) == 35);
+
+	printf("Done\n");
 }
 
 void boolobject_test(){
+	printf("BoolObject test...");
 	BoolObject *b1, *b2;
 	b1 = Bool(TRUE);
 	b2 = Bool(FALSE);
@@ -49,29 +56,41 @@ void boolobject_test(){
 	assert(OBJECT_BOOL_VAL(Int(0)) == FALSE);
 	assert(OBJECT_BOOL_VAL(Int(1)) == TRUE);
 	assert(OBJECT_BOOL_VAL(Bool(FALSE)) == FALSE);
+
+	printf("Done\n");
 }
 
 void nilobject_test(){
+	printf("NilObject test...");
 	NilObject *nil;
 	nil = Nil();
 	assert(TYPE(nil) == NIL);
+
+	printf("Done\n");
 }
 
 void floatobject_test(){
+	printf("FloatObject test...");
 	FloatObject *f;
 	f = Float(20.5);
 	assert(FLOAT_VAL(f) == 20.5);
 	assert(TYPE(f) == FLOAT);
+
+	printf("Done\n");
 }
 
 void symbolobject_test(){
+	printf("SymbolObject test...");
 	SymbolObject* s;
 	s = Symbol("variable1");
 	assert(TYPE(s) == SYMBOL);
 	assert(strcmp(SYMBOL_NAME(s), "variable1") == 0);
+
+	printf("Done\n");
 }
 
 void list_test(){
+	printf("List test...");
 	Object* l;
 	l = List(4, Int(10), Float(2.125), Bool(FALSE), Symbol("var1"));
 
@@ -80,9 +99,12 @@ void list_test(){
 	assert(BOOL_VAL(CAR(CDR(CDR(l)))) == FALSE);
 	assert(strcmp(SYMBOL_NAME(CAR(CDR(CDR(CDR(l))))), "var1") == 0);
 	assert(TYPE(CDR(CDR(CDR(CDR(l))))) == NIL);
+
+	printf("Done\n");
 }
 
 void env_test(){
+	printf("Environment test...");
 	Env* e;
 	int i;
 	e = new_env();
@@ -108,16 +130,22 @@ void env_test(){
 
 	assert(e->size == MIN_TABLE_SIZE * 2);
 
+	printf("Done\n");
+
 }
 
 void stringobject_test(){
+	printf("StringObject test...");
 	StringObject* s;
 	s = String("variable1");
 	assert(TYPE(s) == STRING);
 	assert(strcmp(STRING(s), "variable1") == 0);
+
+	printf("Done\n");
 }
 
 void object_eq_test(){
+	printf("OBJECT_EQ test...");
 	Object *l1, *l2;
 	
 	assert(OBJECT_EQ(Int(1), Int(1)));
@@ -133,9 +161,10 @@ void object_eq_test(){
 
 	assert(OBJECT_EQ(l1, l2));
 
-
+	printf("Done\n");
 }
 void types_macro_test(){
+	printf("types macro test...");
 	Object *l3,*l4,*l5,*l6, *l7, *l8;
 
 	assert(IS_INT(Int(12)));
@@ -178,16 +207,22 @@ void types_macro_test(){
 	assert(IS_LAMBDA_EXP(l8));
 	assert(OBJECT_EQ(LAMBDA_BOUND_VARS(l8), Symbol("vars")));
 	assert(OBJECT_EQ(LAMBDA_BODY(l8), Symbol("body")));
+
+	printf("Done\n");
 }
 
 void primprocobject_test(){
+	printf("PrimProcObject test...");
 	PrimProcObject* p;
 	p = PrimProc(ADD_OP);
 	assert(TYPE(p) == PRIM_PROC);
 	assert(PRIM_PROC_OP(p) == ADD_OP);
+
+	printf("Done\n");
 }
 
 void closureobject_test(){
+	printf("ClosureObject test...");
 	ClosureObject* c;
 	Object *vars, *body;
 	Env* env;
@@ -199,17 +234,23 @@ void closureobject_test(){
 	assert(TYPE(c) == CLOSURE);
 	assert(OBJECT_EQ(CLOSURE_BOUND_VARS(c), vars));
 	assert(OBJECT_EQ(CLOSURE_BODY(c), body));
+
+	printf("Done\n");
 }
 
 void ev_list_test(){
+	printf("ev_list() test...");
 	Object *l1, *l2;
 	Env* env;
 	l1 = List(3, Float(12.125), Int(10), Bool(TRUE));
 	l2 = ev_list(l1, env);
 	assert(OBJECT_EQ(l1, l2));
+
+	printf("Done\n");
 }
 
 void prim_op_test(){
+	printf("Primitive op test...");
 	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9, *l10, *l11, *l12, *l13;
 	l1 = List(3, Int(1), Int(2), Int(3));
 	l2 = add(l1);
@@ -243,8 +284,11 @@ void prim_op_test(){
 	assert(OBJECT_EQ(gt(l10), Bool(FALSE)));	
 	assert(OBJECT_EQ(lt(l10), Bool(TRUE)));
 	assert(OBJECT_EQ(eq(l13), Bool(TRUE)));
+
+	printf("Done\n");
 }
 void extend_env_test(){
+	printf("extend_env() test...");
 	Object *l1,*l2;
 	Env *ne,*e;
 	e=new_env();
@@ -253,9 +297,12 @@ void extend_env_test(){
 	ne=extend_env(e,l1,l2);
 	assert(INT_EQ(Eval(Symbol("x"),ne), Int(3)));
 	assert(INT_EQ(Eval(Symbol("y"),ne), Int(4)));
+
+	printf("Done\n");
 }
 
 void eval_clause_test(){
+	printf("eval_clause() test...");
 	Object *c;
 	Env*  env;
 	env = new_env();
@@ -266,10 +313,13 @@ void eval_clause_test(){
 	assert(OBJECT_EQ(eval_clause(c, env), Nil()));
 
 	c = List(2, Bool(TRUE), Int(1));
-	assert(OBJECT_EQ(eval_clause(c, env), Int(1)));	
+	assert(OBJECT_EQ(eval_clause(c, env), Int(1)));
+
+	printf("Done\n");	
 }
 
 void eval_cond_test(){
+	printf("eval_cond() test...");
 	Object *l1,*C1,*C2,*C3;
 	Env*  env;
 	env=new_env();
@@ -278,10 +328,13 @@ void eval_cond_test(){
 	C3=List(2, Bool(TRUE),Int(2));
 	l1=List(4, COND,C1,C2,C3);
 	assert(OBJECT_EQ(eval_cond(l1,env),Int(1)));
+
+	printf("Done\n");
 }
 
 
 void eval_test(){
+	printf("eval_test() test...");
 	Object *l1, *l2, *l3, *l4, *l5, *l6,*l7,*l8,*l9;
 	Env* env;
 	env = new_env();
@@ -311,11 +364,14 @@ void eval_test(){
 	l8=List(3,LAMBDA,List(1,Symbol("x")),l7);
 	l9=List(2,l8,Int(4));
 	assert(INT_EQ(Eval(l9,env),Int(7)));
+
+	printf("Done\n");
 }
 
 void basic_prog_test(){
+	printf("Basic program test...");
 	Object *func, *func_body, *bound_vars, *lambda, 
-		*appl1, *appl2, *if_exp, *pred_exp;
+		*appl1, *appl2, *if_exp, *pred_exp, *consq_exp, *alter_exp;
 	Env* env;
 	env = new_env();
 
@@ -328,7 +384,9 @@ void basic_prog_test(){
 	Store(env, Symbol("car"), PrimProc(CAR_OP));
 	Store(env, Symbol("cdr"), PrimProc(CDR_OP));
 	Store(env, Symbol("list"), PrimProc(LIST_OP));
-
+	Store(env, Symbol("eq"), PrimProc(EQ_OP));
+	Store(env, Symbol("gt"), PrimProc(GT_OP));
+	Store(env, Symbol("lt"), PrimProc(LT_OP));
 
 	/*	Sqaure Function test
 	 	(define sqr 
@@ -352,13 +410,17 @@ void basic_prog_test(){
 	/* Fact function
 	(define fact
 	       (lambda (n) 
-	       	   (if n (* n (fact(- n 1)) 1)))
+	       	   (if (= n 0)  1 (* n (fact(- n 1)))))
 
 	      (fact 0) should eval to 1
 	       (fact 5) should eval to 120
 	  */
 	bound_vars = List(1, Symbol("n"));
-	if_exp=List(4,Symbol("if"),Symbol("n"),List(3,Symbol("*"),Symbol("n"),List(2, Symbol("fact"), List(3, Symbol("-"), Symbol("n"), Int(1)))),Int(1));
+	pred_exp = List(3, Symbol("eq"), Symbol("n"), Int(0));
+	consq_exp = OBJECT_CAST(Int(1));
+	alter_exp = List(3,Symbol("*"),Symbol("n"),List(2, Symbol("fact"), List(3, Symbol("-"), Symbol("n"), Int(1))));
+
+	if_exp=List(4,Symbol("if"), pred_exp, consq_exp, alter_exp);
 	lambda = List(3, LAMBDA, bound_vars,if_exp);
 	func=List(3,DEFINE,Symbol("fact"),lambda);
 	Eval(func, env);
@@ -385,6 +447,8 @@ void basic_prog_test(){
 
 	appl2=List(3, Symbol("sos"), Int(3),Int(4));
 	assert(OBJECT_EQ(Eval(appl2, env), Int(25)));
+
+	printf("Done\n");
 }
 
 
@@ -410,6 +474,8 @@ int main(){
 	eval_clause_test();
 	eval_test();
 	basic_prog_test();
+	printf("--------------------------------\n");
 	printf("Test Successful!!!\n");
+	printf("--------------------------------\n");
 	return 0;
 }
