@@ -210,7 +210,7 @@ void ev_list_test(){
 }
 
 void prim_op_test(){
-	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9, *l10, *l11, *l12;
+	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9, *l10, *l11, *l12, *l13;
 	l1 = List(3, Int(1), Int(2), Int(3));
 	l2 = add(l1);
 	assert(OBJECT_EQ(l2, Int(6)));
@@ -234,7 +234,15 @@ void prim_op_test(){
 
 	l12 = list(l1);
 	assert(OBJECT_EQ(l12, l1));
+
+	l13 = List(2, Int(10), Int(10));
 	
+	assert(OBJECT_EQ(eq(l6), Bool(FALSE)));
+	assert(OBJECT_EQ(gt(l6), Bool(TRUE)));
+	assert(OBJECT_EQ(lt(l6), Bool(FALSE)));
+	assert(OBJECT_EQ(gt(l10), Bool(FALSE)));	
+	assert(OBJECT_EQ(lt(l10), Bool(TRUE)));
+	assert(OBJECT_EQ(eq(l13), Bool(TRUE)));
 }
 void extend_env_test(){
 	Object *l1,*l2;
@@ -307,7 +315,7 @@ void eval_test(){
 
 void basic_prog_test(){
 	Object *func, *func_body, *bound_vars, *lambda, 
-		*appl1, *appl2,*if_exp;
+		*appl1, *appl2, *if_exp, *pred_exp;
 	Env* env;
 	env = new_env();
 
@@ -339,7 +347,8 @@ void basic_prog_test(){
 	assert(OBJECT_EQ(Eval(appl1, env), Int(81)));
 
 	appl2 = List(2, Symbol("sqr"), Int(21));
-	assert(OBJECT_EQ(Eval(appl2, env), Int(441)));	
+	assert(OBJECT_EQ(Eval(appl2, env), Int(441)));
+
 	/* Fact function
 	(define fact
 	       (lambda (n) 
@@ -359,6 +368,7 @@ void basic_prog_test(){
 
 	appl2=List(2, Symbol("fact"), Int(5));
 	assert(OBJECT_EQ(Eval(appl2, env), Int(120)));
+
 	/* sum of sqr
 	(define sos
        (lambda (x y)
@@ -368,22 +378,13 @@ void basic_prog_test(){
     func_body=List(3,Symbol("+"),List(2,Symbol("sqr"),Symbol("x")),List(2,Symbol("sqr"),Symbol("y")));
     lambda=List(3,LAMBDA,bound_vars,func_body);
     func=List(3,DEFINE,Symbol("sos"),lambda);
-Eval(func, env);
+	Eval(func, env);
 
 	appl1=List(3, Symbol("sos"), Int(2),Int(3));
 	assert(OBJECT_EQ(Eval(appl1, env), Int(13)));
 
-	appl2=List(3, Symbol("sos"), Int(1),Int(2));
-	assert(OBJECT_EQ(Eval(appl2, env), Int(5)));
-
-
-
-
-
-
-
-
-
+	appl2=List(3, Symbol("sos"), Int(3),Int(4));
+	assert(OBJECT_EQ(Eval(appl2, env), Int(25)));
 }
 
 

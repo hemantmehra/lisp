@@ -27,6 +27,9 @@ Object* cons(Object*);
 Object* car(Object*);
 Object* cdr(Object*);
 Object* list(Object*);
+Object* eq(Object*);
+Object* gt(Object*);
+Object* lt(Object*);
 
 Env* extend_env(Env*, Object*, Object*);
 

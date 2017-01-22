@@ -12,7 +12,10 @@ typedef enum{
 	CONS_OP,
 	CAR_OP,
 	CDR_OP,
-	LIST_OP
+	LIST_OP,
+	EQ_OP,
+	GT_OP,
+	LT_OP
 } PrimitiveOp;
 
 typedef struct{

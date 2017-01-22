@@ -133,6 +133,9 @@ Object* apply_prim(Object* proc, Object* args){
 		case CAR_OP: return car(args);
 		case CDR_OP: return cdr(args);
 		case LIST_OP: return list(args);
+		case EQ_OP: return eq(args);
+		case GT_OP: return gt(args);
+		case LT_OP: return lt(args);
 	}
 }
 
@@ -298,3 +301,39 @@ Object* list(Object* args){
 	return args;
 }
 
+Object* eq(Object* args){
+	Object *o1, *o2;
+	BoolObject* b;
+	o1 = CAR(args);
+	o2 = CAR(CDR(args));
+	b = OBJECT_EQ(o1, o2) ? Bool(TRUE) : Bool(FALSE);
+	return OBJECT_CAST(b);
+}
+
+Object* gt(Object* args){
+	Object *o1, *o2;
+	BoolObject* b;
+	float f1, f2;
+	o1 = CAR(args);
+	o2 = CAR(CDR(args));
+	if(IS_INT(o1)) f1 = (float) INT_VAL(o1);
+	if(IS_INT(o2)) f2 = (float) INT_VAL(o2);
+	if(IS_FLOAT(o1)) f1 = FLOAT_VAL(o1);
+	if(IS_FLOAT(o2)) f2 = FLOAT_VAL(o2);
+	b = f1 > f2 ? Bool(TRUE) : Bool(FALSE);
+	return OBJECT_CAST(b);
+}
+
+Object* lt(Object* args){
+	Object *o1, *o2;
+	BoolObject* b;
+	float f1, f2;
+	o1 = CAR(args);
+	o2 = CAR(CDR(args));
+	if(IS_INT(o1)) f1 = (float) INT_VAL(o1);
+	if(IS_INT(o2)) f2 = (float) INT_VAL(o2);
+	if(IS_FLOAT(o1)) f1 = FLOAT_VAL(o1);
+	if(IS_FLOAT(o2)) f2 = FLOAT_VAL(o2);
+	b = f1 < f2 ? Bool(TRUE) : Bool(FALSE);
+	return OBJECT_CAST(b);
+}
