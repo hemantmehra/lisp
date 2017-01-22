@@ -384,9 +384,9 @@ void basic_prog_test(){
 	Store(env, Symbol("car"), PrimProc(CAR_OP));
 	Store(env, Symbol("cdr"), PrimProc(CDR_OP));
 	Store(env, Symbol("list"), PrimProc(LIST_OP));
-	Store(env, Symbol("eq"), PrimProc(EQ_OP));
-	Store(env, Symbol("gt"), PrimProc(GT_OP));
-	Store(env, Symbol("lt"), PrimProc(LT_OP));
+	Store(env, Symbol("="), PrimProc(EQ_OP));
+	Store(env, Symbol(">"), PrimProc(GT_OP));
+	Store(env, Symbol("<"), PrimProc(LT_OP));
 
 	/*	Sqaure Function test
 	 	(define sqr 
@@ -416,7 +416,7 @@ void basic_prog_test(){
 	       (fact 5) should eval to 120
 	  */
 	bound_vars = List(1, Symbol("n"));
-	pred_exp = List(3, Symbol("eq"), Symbol("n"), Int(0));
+	pred_exp = List(3, Symbol("="), Symbol("n"), Int(0));
 	consq_exp = OBJECT_CAST(Int(1));
 	alter_exp = List(3,Symbol("*"),Symbol("n"),List(2, Symbol("fact"), List(3, Symbol("-"), Symbol("n"), Int(1))));
 
