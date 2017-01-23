@@ -323,11 +323,24 @@ void eval_cond_test(){
 	Object *l1,*C1,*C2,*C3;
 	Env*  env;
 	env=new_env();
+	Store(env, Symbol("="), PrimProc(EQ_OP));
+	Store(env, Symbol(">"), PrimProc(GT_OP));
+	Store(env, Symbol("<"), PrimProc(LT_OP));
+
 	C1=List(2, Bool(FALSE),Int(0));
 	C2=List(2,Bool(TRUE),Int(1));
 	C3=List(2, Bool(TRUE),Int(2));
 	l1=List(4, COND,C1,C2,C3);
 	assert(OBJECT_EQ(eval_cond(l1,env),Int(1)));
+
+	Store(env, Symbol("n"), Int(0));
+
+	C1 = List(2, List(3, Symbol("="), Symbol("n"), Int(0)), Int(0));
+	C2 = List(2, List(3, Symbol(">"), Symbol("n"), Int(0)), Int(1));
+	C3 = List(2, List(3, Symbol("<"), Symbol("n"), Int(0)), Int(-1));
+	l1 = List(4, COND, C1, C2, C3);
+	assert(IS_COND_EXP(l1));
+	assert(OBJECT_EQ(eval_cond(l1, env), Int(0)));
 
 	printf("Done\n");
 }
@@ -370,7 +383,7 @@ void eval_test(){
 
 void basic_prog_test(){
 	printf("Basic program test...");
-	Object *func, *func_body, *bound_vars, *lambda,*clause1,*clause2,*else_clause, 
+	Object *func, *func_body, *bound_vars, *lambda,*clause1,*clause2, *clause3,*else_clause, 
 		*appl1, *appl2, *if_exp, *pred_exp, *consq_exp, *alter_exp,*l2;
 	Env* env;
 	env = new_env();
@@ -410,7 +423,9 @@ void basic_prog_test(){
 	/* Fact function
 	(define fact
 	       (lambda (n) 
-	       	   (if (= n 0)  1 (* n (fact(- n 1)))))
+	       	   (if (= n 0)
+	       	   	   1 
+	       	   	   (* n (fact(- n 1)))))
 
 	      (fact 0) should eval to 1
 	       (fact 5) should eval to 120
@@ -434,7 +449,8 @@ void basic_prog_test(){
 	/* sum of sqr
 	(define sos
        (lambda (x y)
-             (+ (sqr x) (sqr y))))
+             (+ (sqr x) 
+             	(sqr y))))
      */
     bound_vars=List(2,Symbol("x"),Symbol("y"));
     func_body=List(3,Symbol("+"),List(2,Symbol("sqr"),Symbol("x")),List(2,Symbol("sqr"),Symbol("y")));
@@ -448,40 +464,71 @@ void basic_prog_test(){
 	appl2=List(3, Symbol("sos"), Int(3),Int(4));
 	assert(OBJECT_EQ(Eval(appl2, env), Int(25)));
 
-	printf("Done\n");
 
-/* fibo test
-(define fibo 
-      (lambda (x) 
-         (cond ((= n 0) 0) ((= n 1) 1) (else (+ (fibo(- n 1)) (fibo(- n 2)))))))
-         */
+	/* cond test
+		(define func
+			(lambda (n)
+				(cond ((= n 0) 0)
+					  ((> n 0) 1)
+					  ((< n 0) -1))))
+	*/
 
-         /*bound_vars=List(1,Symbol("n"));
-      clause1=List(2,List(3,Symbol("="),Symbol("n"),Int(0)),Int(0));
-        clause2=List(2,List(3,Symbol("="),Symbol("n"),Int(1)),Int(1));
-        else_clause=List(2,Symbol("else"),List(3,Symbol("+"),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(1))),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(2)))));
-         func_body=List(4,Symbol("cond"),clause1,clause2,else_clause);
-        lambda=List(3,LAMBDA,bound_vars,func_body);
-        func=List(3,DEFINE,Symbol("fibo"),lambda);
-        Eval(func,env);
-      appl1=List(2,Symbol("fibo"),Int(3));
-        assert(OBJECT_EQ(Eval(appl1,env),Int(1)));*/
+	bound_vars = List(1, Symbol("n"));
+	clause1 = List(2, List(3, Symbol("="), Symbol("n"), Int(0)), Symbol("n"));
+	clause2 = List(2, List(3, Symbol(">"), Symbol("n"), Int(0)), Int(1));
+	clause3 = List(2, List(3, Symbol("<"), Symbol("n"), Int(0)), Int(-1));
+
+	func_body = List(4, COND, clause1, clause2, clause3);
+	lambda = List(3, LAMBDA, bound_vars, func_body);
+	func = List(3, DEFINE, Symbol("func"), lambda);
+	Eval(func, env);
+	appl1 = List(2, Symbol("func"), Int(0));
+	assert(OBJECT_EQ(Eval(appl1, env), Int(0)));
+
 	/* fibo test
-(define fibo 
-      (lambda (n) 
-         (if (< n 2) (- n 1) (+ (fibo(- n 1)) (fibo(- n 2))))))
-         */
+	(define fibo 
+		(lambda (n) 
+			(cond ((= n 0) 0) 
+				  ((= n 1) 1) 
+				  (else (+  (fibo(- n 1))
+				  			(fibo(- n 2)))))))
+	*/
 
-         bound_vars=List(1,Symbol("n"));
+	
+	bound_vars=List(1,Symbol("n"));
+	clause1=List(2,List(3,Symbol("="),Symbol("n"),Int(0)),Int(0));
+	clause2=List(2,List(3,Symbol("="),Symbol("n"),Int(1)),Int(1));
+	else_clause=List(2, ELSE,List(3,Symbol("+"),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(1))),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(2)))));
+	func_body=List(4,Symbol("cond"),clause1,clause2,else_clause);
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("fibo"),lambda);
+	Eval(func,env);
+	appl1=List(2,Symbol("fibo"),Int(5));
+	assert(OBJECT_EQ(Eval(appl1,env),Int(5)));
         
-         l2=List(3,Symbol("+"),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(1))),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(2))));
-        func_body=List(4,Symbol("if"),List(3,Symbol("<"),Symbol("n"),Int(2)),List(3,Symbol("-"),Symbol("n"),Int(1)),l2);
-        lambda=List(3,LAMBDA,bound_vars,func_body);
-        func=List(3,DEFINE,Symbol("fibo"),lambda);
-         Eval(func,env);
-      appl1=List(2,Symbol("fibo"),Int(3));
-        assert(OBJECT_EQ(Eval(appl1,env),Int(2)));
+	
+	/* fibo test
+	(define fibo1 
+	      (lambda (n) 
+	         (if (< n 2) 
+	         	 n 
+	         	 (+ (fibo(- n 1)) 
+	         	 	(fibo(- n 2))))))
+    */
+	
+	bound_vars=List(1,Symbol("n"));
+	pred_exp = List(3, Symbol("<"), Symbol("n"), Int(2));
+	consq_exp = OBJECT_CAST(Symbol("n"));
+	alter_exp = List(3,Symbol("+"),List(2,Symbol("fibo1"),List(3,Symbol("-"),Symbol("n"),Int(1))),List(2,Symbol("fibo"),List(3,Symbol("-"),Symbol("n"),Int(2))));
+	func_body=List(4,Symbol("if"), pred_exp, consq_exp,alter_exp);
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("fibo1"),lambda);
+	Eval(func,env);
+	appl1=List(2,Symbol("fibo1"),Int(5));
+	assert(OBJECT_EQ(Eval(appl1,env),Int(5)));
+	
 
+	printf("Done\n");
 }
 
 

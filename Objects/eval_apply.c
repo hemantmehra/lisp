@@ -32,7 +32,7 @@ Object* eval(Object* exp, Env* env){
 		}
 	}
 	else if(IS_COND_EXP(exp)){
-		return eval_cond(CDR(exp), env);
+		return eval_cond(exp, env);
 	}
 	else if(IS_LAMBDA_EXP(exp)){
 		return OBJECT_CAST(Closure(LAMBDA_BOUND_VARS(exp), LAMBDA_BODY(exp), env));
