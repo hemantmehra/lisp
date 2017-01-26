@@ -25,10 +25,10 @@ Object* eval(Object* exp, Env* env){
 	}
 	else if(IS_IF_EXP(exp)){
 		if(OBJECT_BOOL_VAL(eval(IF_PRED(exp), env)) == TRUE){
-			return eval(IF_CONSQ(exp), env);
+			return Eval(IF_CONSQ(exp), env);
 		}
 		else{
-			return eval(IF_ALTER(exp), env);
+			return Eval(IF_ALTER(exp), env);
 		}
 	}
 	else if(IS_COND_EXP(exp)){
@@ -38,7 +38,7 @@ Object* eval(Object* exp, Env* env){
 		return OBJECT_CAST(Closure(LAMBDA_BOUND_VARS(exp), LAMBDA_BODY(exp), env));
 	}
 	else{
-		return apply(eval(CAR(exp), env), ev_list(CDR(exp), env));
+		return apply(Eval(CAR(exp), env), ev_list(CDR(exp), env));
 	}
 }
 
@@ -47,7 +47,7 @@ Object* apply(Object* proc, Object* args){
 		return apply_prim(proc, args);
 	}
 	else if(IS_CLOSURE(proc)){
-		return eval(CLOSURE_BODY(proc), extend_env(CLOSURE_ENV(proc), CLOSURE_BOUND_VARS(proc), args));
+		return Eval(CLOSURE_BODY(proc), extend_env(CLOSURE_ENV(proc), CLOSURE_BOUND_VARS(proc), args));
 	}
 }
 
