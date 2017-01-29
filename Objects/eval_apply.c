@@ -290,11 +290,11 @@ Object* cons(Object* args){
 }
 
 Object* car(Object* args){
-	return OBJECT_CAST(CAR(args));
+	return OBJECT_CAST(CAR(CAR(args)));
 }
 
 Object* cdr(Object* args){
-	return OBJECT_CAST(CDR(args));
+	return OBJECT_CAST(CDR(CAR(args)));
 }
 
 Object* list(Object* args){

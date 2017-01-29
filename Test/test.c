@@ -271,7 +271,7 @@ void prim_op_test(){
 
 	l10 = List(2, Int(10), Int(12));
 	l11 = cons(l10);
-	assert(OBJECT_EQ(car(l11), Int(10)) && OBJECT_EQ(cdr(l11), Int(12)));
+	assert(OBJECT_EQ(car(List(1, l11)), Int(10)) && OBJECT_EQ(cdr(List(1, l11)), Int(12)));
 
 	l12 = list(l1);
 	assert(OBJECT_EQ(l12, l1));
@@ -526,72 +526,77 @@ void basic_prog_test(){
 	Eval(func,env);
 	appl1=List(2,Symbol("fibo1"),Int(5));
 	assert(OBJECT_EQ(Eval(appl1,env),Int(5)));
-	printf("Done\n");
+
 	/*(define complex
     (lambda (x y)
         (Cons x y)
         ))*/
-   bound_vars=List(2,Symbol("x"),Symbol("y"));
-   func_body=List(3,Symbol("cons"),Symbol("x"),Symbol("y"));
-   lambda=List(3,LAMBDA,bound_vars,func_body);
-   func=List(3,DEFINE,Symbol("complex"),lambda);
-   Eval(func, env);
-  /*(define real
-    (lambda (cn)
-       (car cn)
-     ))*/
+	bound_vars=List(2,Symbol("x"),Symbol("y"));
+	func_body=List(3,Symbol("cons"),Symbol("x"),Symbol("y"));
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("complex"),lambda);
+	Eval(func, env);
 
-bound_vars=List(1,Symbol("cn"));
-   func_body=List(2,Symbol("car"),Symbol("cn"));
-   lambda=List(3,LAMBDA,bound_vars,func_body);
-   func=List(3,DEFINE,Symbol("real"),lambda);
-   Eval(func, env);
-/*(define imag
-  (lambda (cn)
-    (cdr cn)
-    ))*/
-    bound_vars=List(1,Symbol("cn"));
-   func_body=List(2,Symbol("cdr"),Symbol("cn"));
-   lambda=List(3,LAMBDA,bound_vars,func_body);
-   func=List(3,DEFINE,Symbol("imag"),lambda);
-   Eval(func, env);
+	/*(define real
+	(lambda (cn)
+	   (car cn)
+	 ))*/
 
-/* (define add-complex
-   (lambda (c1 c2)
-    (complex (+ (real c1) (real c2)) (+ (imag c1) (imag c2)))
+	bound_vars=List(1,Symbol("cn"));
+	func_body=List(2,Symbol("car"),Symbol("cn"));
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("real"),Symbol("car"));
+	Eval(func, env);
 
-   ))*/
-  bound_vars=List(2,Symbol("c1"),Symbol("c2"));
-   func_body=List(3,Symbol("complex"),List(3,Symbol("+"),List(2,Symbol("real"),Symbol("c1")),List(2,Symbol("real"),Symbol("c2"))),List(3,Symbol("+"),List(2,Symbol("imag"),Symbol("c1")),List(2,Symbol("imag"),Symbol("c2"))));
-   lambda=List(3,LAMBDA,bound_vars,func_body);
-   func=List(3,DEFINE,Symbol("add-complex"),lambda);
-   Eval(func, env);
+	/*(define imag
+	(lambda (cn)
+	(cdr cn)
+	))*/
+	bound_vars=List(1,Symbol("cn"));
+	func_body=List(2,Symbol("cdr"),Symbol("cn"));
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("imag"),Symbol("cdr"));
+	Eval(func, env);
 
-   
-/*2 complex numbers:
-(define a (complex 1 2))
-(define b (complex 3 4))*/
+	/* (define add-complex
+	(lambda (c1 c2)
+	(complex (+ (real c1) (real c2)) (+ (imag c1) (imag c2)))
 
-appl1=List(3,DEFINE,Symbol("a"),List(3,Symbol("complex"),Int(1),Int(2)));
-appl2=List(3,DEFINE,Symbol("b"),List(3,Symbol("complex"),Int(3),Int(4)));
-Object* re=Eval(appl1,env);
-assert(OBJECT_EQ(CAR(Eval(Symbol("a"),env)),Int(1)));                        
-assert(OBJECT_EQ(CDR(Eval(Symbol("a"),env)),Int(2)));
-Object* re1=Eval(appl2,env);
-assert(OBJECT_EQ(CAR(Eval(Symbol("b"),env)),Int(3)));                        
-assert(OBJECT_EQ(CDR(Eval(Symbol("b"),env)),Int(4)));
-appl1=List(2,Symbol("real"),Symbol("a"));
-appl2=List(2,Symbol("imag"),Symbol("a"));
-assert(OBJECT_EQ(CAR(Eval(appl1,env)),Int(1)));
-printf("%d", TYPE(Eval(Symbol("c"), env)));
-printf("\n%d", INT_VAL(CAR(Eval(Symbol("c"), env))));
-printf("\n%d", INT_VAL(CDR(Eval(Symbol("c"), env))));
-assert(OBJECT_EQ(CDR(Eval(appl2,env)),Int(2)));
-appl1=List(3,DEFINE,Symbol("c"),List(3,Symbol("add-complex"),Symbol("a"),Symbol("b")));
-Eval(appl1,env);
-assert(IS_CONS(Eval(Symbol("c"),env)));
-//assert(OBJECT_EQ(CAR(Eval(Symbol("c"),env)),Int(4)));                        
-//assert(OBJECT_EQ(CDR(Eval(Symbol("c"),env)),Int(6)));
+	))*/
+	bound_vars=List(2,Symbol("c1"),Symbol("c2"));
+	func_body=List(3,Symbol("complex"),List(3,Symbol("+"),List(2,Symbol("real"),Symbol("c1")),List(2,Symbol("real"),Symbol("c2"))),List(3,Symbol("+"),List(2,Symbol("imag"),Symbol("c1")),List(2,Symbol("imag"),Symbol("c2"))));
+	lambda=List(3,LAMBDA,bound_vars,func_body);
+	func=List(3,DEFINE,Symbol("add-complex"),lambda);
+	Eval(func, env);
+
+
+	/*2 complex numbers:
+	(define a (complex 1 2))
+	(define b (complex 3 4))*/
+
+	appl1=List(3,DEFINE,Symbol("a"),List(3,Symbol("complex"),Int(1),Int(2)));
+	appl2=List(3,DEFINE,Symbol("b"),List(3,Symbol("complex"),Int(3),Int(4)));
+	Object* re=Eval(appl1,env);
+	assert(OBJECT_EQ(CAR(Eval(Symbol("a"),env)),Int(1)));                        
+	assert(OBJECT_EQ(CDR(Eval(Symbol("a"),env)),Int(2)));
+	Object* re1=Eval(appl2,env);
+	assert(OBJECT_EQ(CAR(Eval(Symbol("b"),env)),Int(3)));                        
+	assert(OBJECT_EQ(CDR(Eval(Symbol("b"),env)),Int(4)));
+	appl1=List(2, Symbol("real"), Symbol("a"));
+	appl2=List(2, Symbol("imag"), Symbol("a"));
+
+	assert(OBJECT_EQ(Eval(appl1, env), Int(1)));
+	assert(OBJECT_EQ(Eval(appl2, env), Int(2)));
+
+	appl1=List(3,DEFINE,Symbol("c"),List(3,Symbol("add-complex"),Symbol("a"),Symbol("b")));
+
+	Eval(appl1,env);
+	assert(IS_CONS(Eval(Symbol("c"),env)));
+	assert(OBJECT_EQ(CAR(Eval(Symbol("c"),env)),Int(4)));                        
+	assert(OBJECT_EQ(CDR(Eval(Symbol("c"),env)),Int(6)));
+
+	printf("Done\n");
+
 }
 
 
