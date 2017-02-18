@@ -16,6 +16,7 @@
 #include "primprocobject.h"
 #include "closureobject.h"
 #include "eval_apply.h"
+#include "lexer.h"
 
 void intobject_test(){
 	printf("IntObject test...");
@@ -599,6 +600,23 @@ void basic_prog_test(){
 
 }
 
+void lexer_test(){
+	printf("Lexer test...");
+
+	m_reset();
+	m_putchar('t');
+	m_putchar('o');
+	m_putchar('k');
+	m_putchar('e');
+	m_putchar('n');
+	assert(strcmp(m_getstring(), "token") == 0);
+
+	m_reset();
+	assert(strcmp(m_getstring(), "") == 0);
+
+	printf("Done\n");
+}
+
 
 
 int main(){
@@ -622,6 +640,7 @@ int main(){
 	eval_clause_test();
 	eval_test();
 	basic_prog_test();
+	lexer_test();
 	printf("--------------------------------\n");
 	printf("Test Successful!!!\n");
 	printf("--------------------------------\n");

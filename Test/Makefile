@@ -17,7 +17,8 @@ HEADERS = \
 	$(IDIR)/types.h \
 	$(IDIR)/primprocobject.h \
 	$(IDIR)/closureobject.h \
-	$(IDIR)/eval_apply.h
+	$(IDIR)/eval_apply.h \
+	$(IDIR)/lexer.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -33,7 +34,8 @@ OBJECTS = \
 	$(ODIR)/types.o \
 	$(ODIR)/primprocobject.o \
 	$(ODIR)/closureobject.o \
-	$(ODIR)/eval_apply.o
+	$(ODIR)/eval_apply.o \
+	$(ODIR)/lexer.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -81,6 +83,9 @@ $(ODIR)/closrueobject.o: $(ODIR)/closrueobject.c $(HEADERS)
 
 $(ODIR)/eval_apply.o: $(ODIR)/eval_apply.c $(HEADERS)
 	gcc -c $(ODIR)/eval_apply.c -o $(ODIR)/eval_apply.o $(CFLAGS)
+
+$(ODIR)/lexer.o: $(ODIR)/lexer.c $(HEADERS)
+	gcc -c $(ODIR)/lexer.c -o $(ODIR)/lexer.o $(CFLAGS)
 
 
 
