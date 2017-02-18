@@ -613,6 +613,15 @@ void lexer_test(){
 
 	m_reset();
 	assert(strcmp(m_getstring(), "") == 0);
+	assert(minus_func('-')==1);
+assert(plus_func('+')==1);
+assert(dquote_func('\"')==1);
+assert(digit_func('8')==1);
+assert(sym_char_func('a')==1);
+assert(whitespace_func(' ')==1);
+assert(rp_func(')')==1);
+assert(lp_func('(')==1);
+
 
 	printf("Done\n");
 }
