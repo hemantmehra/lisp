@@ -70,7 +70,7 @@ void m_init(){
 
 	S_istr.l = s_istr;
 	S_istr.arcs = arcs_istr;
-	S_istr.arc_c = 1;
+	S_istr.arc_c = 2;
 
 	S_str.l = s_str;
 	S_str.arcs = NULL;
@@ -118,6 +118,8 @@ void m_init(){
 
 	arc_istr_istr.f = allchar_func;
 	arc_istr_istr.s =  S_istr;
+	arc_istr_str.f = dquote_func;
+	arc_istr_str.s = S_str;
 	arc_int_int.f = digit_func;
 	arc_int_int.s = S_int;
 	arc_int_float.f = dot_func;
@@ -146,6 +148,7 @@ void m_init(){
 	arcs_q0[7] = arc_q0_q0;
 
 	arcs_istr[0] = arc_istr_istr;
+	arcs_istr[1] = arc_istr_str;
 
 	arcs_int[0] = arc_int_int;
 	arcs_int[1] = arc_int_float;
