@@ -82,6 +82,7 @@ Machine lexer_m;
 // Machine functions
 void m_init();
 void m_reset();
+void m_changestate(Label);
 void m_putchar(char);
 char* m_getstring();
 

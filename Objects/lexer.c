@@ -165,13 +165,49 @@ void m_init(){
 	arcs_sym[0] = arc_sym_sym;
 
 	lexer_m.s = &S_q0;
-
+	lexer_m.b_counter = 0;
+	lexer_m.buffer[lexer_m.b_counter] = '\0';
 }
 
 void m_reset(){
 	lexer_m.s = &S_q0;
 	lexer_m.b_counter = 0;
 	lexer_m.buffer[lexer_m.b_counter] = '\0';
+}
+
+void m_changestate(Label l){
+	switch(l){
+		case s_q0: 
+			lexer_m.s = &S_q0;
+			break;
+		case s_lp: 
+			lexer_m.s = &S_lp;
+			break;
+		case s_rp: 
+			lexer_m.s = &S_rp;
+			break;
+		case s_istr: 
+			lexer_m.s = &S_istr;
+			break;
+		case s_str: 
+			lexer_m.s = &S_str;
+			break;
+		case s_sym: 
+			lexer_m.s = &S_sym;
+			break;
+		case s_int: 
+			lexer_m.s = &S_int;
+			break;
+		case s_float: 
+			lexer_m.s = &S_float;
+			break;
+		case s_plus: 
+			lexer_m.s = &S_plus;
+			break;
+		case s_minus:
+			lexer_m.s = &S_minus;
+			break;	
+	}
 }
 
 void m_putchar(char c){
