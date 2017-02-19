@@ -5,7 +5,7 @@
 S_q0 = {s_q0, arcs_q0, 8};
 S_lp = {s_lp, NULL, 0};
 S_rp = {s_rp, NULL, 0;
-S_istr = {s_istr, arcs_istr, 1};
+S_istr = {s_istr, arcs_istr, 2};
 S_str = {s_str, NULL, 0};
 S_sym = {s_sym, arcs_sym, 1};
 S_int = {s_int, arcs_int, 2};
@@ -26,6 +26,7 @@ arc_q0_sym = {sym_char_func, S_sym};
 arc_q0_q0 = {whitespace_func, S_q0};
 
 arc_istr_istr = {allchar_func, S_istr};
+arc_istr_str = {dquote_func, S_str}
 arc_int_int = {digit_func, S_int};
 arc_int_float = {dot_func, S_float};
 arc_float_float = {digit_func, S_float};
@@ -46,7 +47,7 @@ arcs_q0 = {
 	arc_q0_q0
 };
 
-arcs_istr = {arc_istr_istr};
+arcs_istr = {arc_istr_istr, arc_istr_str};
 arcs_int = {arc_int_int, arc_int_float};
 arcs_float = {arc_float_float};
 arcs_plus = {arc_plus_int, arc_plus_sym};
@@ -168,6 +169,7 @@ void m_init(){
 }
 
 void m_reset(){
+	lexer_m.s = &S_q0;
 	lexer_m.b_counter = 0;
 	lexer_m.buffer[lexer_m.b_counter] = '\0';
 }
