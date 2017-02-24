@@ -17,6 +17,7 @@
 #include "closureobject.h"
 #include "eval_apply.h"
 #include "lexer.h"
+#include "token.h"
 
 void intobject_test(){
 	printf("IntObject test...");
@@ -634,6 +635,16 @@ void lexer_test(){
 	printf("Done\n");
 }
 
+void token_test(){
+	printf("Token test...");
+
+	Token *t;
+
+	t = TokenFromInt(23);
+	assert(TOKEN_TYPE(t) == T_INT);
+	assert(INT_VAL(t->obj) == 23);
+	printf("Done");
+}
 
 
 int main(){
@@ -658,6 +669,7 @@ int main(){
 	eval_test();
 	basic_prog_test();
 	lexer_test();
+	token_test();
 	printf("--------------------------------\n");
 	printf("Test Successful!!!\n");
 	printf("--------------------------------\n");
