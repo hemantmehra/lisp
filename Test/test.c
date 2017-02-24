@@ -603,6 +603,7 @@ void basic_prog_test(){
 void lexer_test(){
 	printf("Lexer test...");
 
+	m_init();
 	m_reset();
 	m_putchar('t');
 	m_putchar('o');
@@ -614,14 +615,21 @@ void lexer_test(){
 	m_reset();
 	assert(strcmp(m_getstring(), "") == 0);
 	assert(minus_func('-')==1);
-assert(plus_func('+')==1);
-assert(dquote_func('\"')==1);
-assert(digit_func('8')==1);
-assert(sym_char_func('a')==1);
-assert(whitespace_func(' ')==1);
-assert(rp_func(')')==1);
-assert(lp_func('(')==1);
+	assert(plus_func('+')==1);
+	assert(dquote_func('\"')==1);
+	assert(digit_func('8')==1);
+	assert(sym_char_func('a')==1);
+	assert(whitespace_func(' ')==1);
+	assert(rp_func(')')==1);
+	assert(lp_func('(')==1);
 
+	m_reset();
+	assert(m_getcurrlabel() == s_q0);
+	m_changestate(s_lp);
+	assert(m_getcurrlabel() == s_lp);
+
+	tokenizer("     (        define   x 10      )        ");
+	tokenizer("(define func (lambda (x) (x)))");
 
 	printf("Done\n");
 }

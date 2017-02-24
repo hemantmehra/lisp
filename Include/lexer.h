@@ -83,8 +83,11 @@ Machine lexer_m;
 void m_init();
 void m_reset();
 void m_changestate(Label);
+Label m_getcurrlabel();
 void m_putchar(char);
 char* m_getstring();
+
+void tokenizer(char *);
 
 
 // Arc functions

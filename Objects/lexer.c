@@ -210,6 +210,10 @@ void m_changestate(Label l){
 	}
 }
 
+Label m_getcurrlabel(){
+	return lexer_m.s->l;
+}
+
 void m_putchar(char c){
 	lexer_m.buffer[lexer_m.b_counter] = c;
 	lexer_m.b_counter++;
@@ -218,6 +222,30 @@ void m_putchar(char c){
 char* m_getstring(){
 	lexer_m.buffer[lexer_m.b_counter] = '\0';
 	return lexer_m.buffer;
+}
+
+void tokenizer(char *str){
+	char ch;
+	int i, n;
+	m_init();
+	printf("\nTokens: ");
+	while((ch = *str) != '\0'){
+		n = lexer_m.s->arc_c;
+		for(i=0; i<n; i++){
+			if(lexer_m.s->arcs[i].f(ch)){
+				if(lexer_m.s->arcs[i].s.l != s_q0)
+				m_putchar(ch);
+				m_changestate(lexer_m.s->arcs[i].s.l);
+				str++;
+				break;
+			}
+		}
+		if(i == n){
+			printf("%s, ", m_getstring());
+			m_reset();
+		}
+	}
+	printf("%s\n", m_getstring());
 }
 
 int lp_func(char c){
