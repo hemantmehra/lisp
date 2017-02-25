@@ -255,37 +255,37 @@ void prim_op_test(){
 	printf("Primitive op test...");
 	Object *l1,*l2,*l3,*l4,*l5,*l6,*l7,*l8,*l9, *l10, *l11, *l12, *l13;
 	l1 = List(3, Int(1), Int(2), Int(3));
-	l2 = add(l1);
+	l2 = op_add(l1);
 	assert(OBJECT_EQ(l2, Int(6)));
 	l3=List(2,Int(20),Int(10));
-	l4=sub(l3);
+	l4=op_sub(l3);
 	assert(OBJECT_EQ(l4, Int(10)));
-	l5=mul(l1);
+	l5=op_mul(l1);
 	assert(OBJECT_EQ(l5,Int(6)));
 	l6=List(2,Int(20),Int(10));
 
-	l7=div(l6);
+	l7=op_div(l6);
 	assert(OBJECT_EQ(l7,Int(2)));
 	
 	l8=List(2,Int(13),Int(4));
-    l9=mod(l8);
+    l9=op_mod(l8);
 	assert(OBJECT_EQ(l9,Int(1)));
 
 	l10 = List(2, Int(10), Int(12));
-	l11 = cons(l10);
-	assert(OBJECT_EQ(car(List(1, l11)), Int(10)) && OBJECT_EQ(cdr(List(1, l11)), Int(12)));
+	l11 = op_cons(l10);
+	assert(OBJECT_EQ(op_car(List(1, l11)), Int(10)) && OBJECT_EQ(op_cdr(List(1, l11)), Int(12)));
 
-	l12 = list(l1);
+	l12 = op_list(l1);
 	assert(OBJECT_EQ(l12, l1));
 
 	l13 = List(2, Int(10), Int(10));
 	
-	assert(OBJECT_EQ(eq(l6), Bool(FALSE)));
-	assert(OBJECT_EQ(gt(l6), Bool(TRUE)));
-	assert(OBJECT_EQ(lt(l6), Bool(FALSE)));
-	assert(OBJECT_EQ(gt(l10), Bool(FALSE)));	
-	assert(OBJECT_EQ(lt(l10), Bool(TRUE)));
-	assert(OBJECT_EQ(eq(l13), Bool(TRUE)));
+	assert(OBJECT_EQ(op_eq(l6), Bool(FALSE)));
+	assert(OBJECT_EQ(op_gt(l6), Bool(TRUE)));
+	assert(OBJECT_EQ(op_lt(l6), Bool(FALSE)));
+	assert(OBJECT_EQ(op_gt(l10), Bool(FALSE)));	
+	assert(OBJECT_EQ(op_lt(l10), Bool(TRUE)));
+	assert(OBJECT_EQ(op_eq(l13), Bool(TRUE)));
 
 	printf("Done\n");
 }

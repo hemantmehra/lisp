@@ -1,6 +1,6 @@
 #ifndef INT_OBJECT_H
 #define INT_OBJECT_H
-
+#include <stdio.h>
 #include "object.h"
 
 struct _int_object{
@@ -16,5 +16,6 @@ typedef struct _int_object IntObject;
 
 IntObject* new_int_object();
 IntObject* Int(int);
+#define IntFromString(i) (Int(atoi(i)));
 
 #endif

@@ -124,27 +124,27 @@ Env* extend_env(Env* env, Object* bound_vars, Object* args){
 
 Object* apply_prim(Object* proc, Object* args){
 	switch(PRIM_PROC_OP(proc)){
-		case ADD_OP: return add(args);
-		case SUB_OP: return sub(args);
-		case MUL_OP: return mul(args);
-		case DIV_OP: return div(args);
-		case MOD_OP: return mod(args);
-		case CONS_OP: return cons(args);
-		case CAR_OP: return car(args);
-		case CDR_OP: return cdr(args);
-		case LIST_OP: return list(args);
-		case EQ_OP: return eq(args);
-		case GT_OP: return gt(args);
-		case LT_OP: return lt(args);
+		case ADD_OP: return op_add(args);
+		case SUB_OP: return op_sub(args);
+		case MUL_OP: return op_mul(args);
+		case DIV_OP: return op_div(args);
+		case MOD_OP: return op_mod(args);
+		case CONS_OP: return op_cons(args);
+		case CAR_OP: return op_car(args);
+		case CDR_OP: return op_cdr(args);
+		case LIST_OP: return op_list(args);
+		case EQ_OP: return op_eq(args);
+		case GT_OP: return op_gt(args);
+		case LT_OP: return op_lt(args);
 	}
 }
 
-Object* add(Object* args){
+Object* op_add(Object* args){
 	if(IS_NIL(CDR(args))){
 		return OBJECT_CAST(CAR(args));
 	}
 	else{
-		return bin_add(OBJECT_CAST(CAR(args)), add(OBJECT_CAST(CDR(args))));
+		return bin_add(OBJECT_CAST(CAR(args)), op_add(OBJECT_CAST(CDR(args))));
 	}
 }
 
@@ -173,12 +173,12 @@ Object* bin_add(Object* obj1, Object* obj2){
 	}
 }
 
-Object* sub(Object* args){
+Object* op_sub(Object* args){
 	if(IS_NIL(CDR(args))){
 		return OBJECT_CAST(CAR(args));
 	}
 	else{
-		return bin_sub(OBJECT_CAST(CAR(args)), sub(OBJECT_CAST(CDR(args))));
+		return bin_sub(OBJECT_CAST(CAR(args)), op_sub(OBJECT_CAST(CDR(args))));
 	}
 }
 
@@ -207,12 +207,12 @@ Object* bin_sub(Object* obj1, Object* obj2){
 	}
 }
 
-Object* mul(Object* args){
+Object* op_mul(Object* args){
 	if(IS_NIL(CDR(args))){
 		return OBJECT_CAST(CAR(args));
 	}
 	else{
-		return bin_mul(OBJECT_CAST(CAR(args)), mul(OBJECT_CAST(CDR(args))));
+		return bin_mul(OBJECT_CAST(CAR(args)), op_mul(OBJECT_CAST(CDR(args))));
 	}
 }
 
@@ -241,12 +241,12 @@ Object* bin_mul(Object* obj1, Object* obj2){
 	}
 }
 
-Object* div(Object* args){
+Object* op_div(Object* args){
 	if(IS_NIL(CDR(args))){
 		return OBJECT_CAST(CAR(args));
 	}
 	else{
-		return bin_div(OBJECT_CAST(CAR(args)), div(OBJECT_CAST(CDR(args))));
+		return bin_div(OBJECT_CAST(CAR(args)), op_div(OBJECT_CAST(CDR(args))));
 	}
 }
 
@@ -275,7 +275,7 @@ Object* bin_div(Object* obj1, Object* obj2){
 	}
 }
 
-Object* mod(Object* args){
+Object* op_mod(Object* args){
 	return bin_mod(OBJECT_CAST(CAR(args)), OBJECT_CAST(CAR(CDR(args))));
 }
 
@@ -283,25 +283,25 @@ Object* bin_mod(Object* obj1, Object* obj2){
 	return OBJECT_CAST(Int(INT_VAL(obj1) % INT_VAL(obj2)));
 }
 
-Object* cons(Object* args){
+Object* op_cons(Object* args){
 	ConsObject* c;
 	c = Cons(CAR(args), CAR(CDR(args)));
 	return OBJECT_CAST(c);
 }
 
-Object* car(Object* args){
+Object* op_car(Object* args){
 	return OBJECT_CAST(CAR(CAR(args)));
 }
 
-Object* cdr(Object* args){
+Object* op_cdr(Object* args){
 	return OBJECT_CAST(CDR(CAR(args)));
 }
 
-Object* list(Object* args){
+Object* op_list(Object* args){
 	return args;
 }
 
-Object* eq(Object* args){
+Object* op_eq(Object* args){
 	Object *o1, *o2;
 	BoolObject* b;
 	o1 = CAR(args);
@@ -310,7 +310,7 @@ Object* eq(Object* args){
 	return OBJECT_CAST(b);
 }
 
-Object* gt(Object* args){
+Object* op_gt(Object* args){
 	Object *o1, *o2;
 	BoolObject* b;
 	float f1, f2;
@@ -324,7 +324,7 @@ Object* gt(Object* args){
 	return OBJECT_CAST(b);
 }
 
-Object* lt(Object* args){
+Object* op_lt(Object* args){
 	Object *o1, *o2;
 	BoolObject* b;
 	float f1, f2;

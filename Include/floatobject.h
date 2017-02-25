@@ -1,6 +1,7 @@
 #ifndef FLOAT_OBJECT_H
 #define FLOAT_OBJECT_H
 
+#include <stdlib.h>
 #include "object.h"
 
 struct _float_object{
@@ -16,5 +17,6 @@ typedef struct _float_object FloatObject;
 
 FloatObject* new_float_object();
 FloatObject* Float(float);
+#define FLoatFromString(f) (Float(atof(f)));
 
 #endif                        
