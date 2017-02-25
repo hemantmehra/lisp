@@ -629,8 +629,20 @@ void lexer_test(){
 	m_changestate(s_lp);
 	assert(m_getcurrlabel() == s_lp);
 
-	tokenizer("     (        define   x 10      )        ");
-	tokenizer("(define func (lambda (x) (x)))");
+	Token *t;
+	t = tokenizer("     (        define   x 10.125      )        ");
+	assert(TOKEN_TYPE(t) == T_LP);
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_SYMBOL && (strcmp(SYMBOL_NAME(t->obj), "define") == 0));
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_SYMBOL && (strcmp(SYMBOL_NAME(t->obj), "x") == 0));
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_FLOAT && FLOAT_VAL(t->obj) == 10.125);
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_RP);
+	t = t->next;
+	assert(t == NULL);
+
 
 	printf("Done\n");
 }
@@ -640,10 +652,10 @@ void token_test(){
 
 	Token *t;
 
-	t = TokenFromInt(23);
+	t = IntToken("-23");
 	assert(TOKEN_TYPE(t) == T_INT);
-	assert(INT_VAL(t->obj) == 23);
-	printf("Done");
+	assert(INT_VAL(t->obj) == -23);
+	printf("Done\n");
 }
 
 

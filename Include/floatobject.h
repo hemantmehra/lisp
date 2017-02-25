@@ -17,6 +17,6 @@ typedef struct _float_object FloatObject;
 
 FloatObject* new_float_object();
 FloatObject* Float(float);
-#define FLoatFromString(f) (Float(atof(f)));
+#define FloatFromString(f) (Float(atof(f)));
 
 #endif                        

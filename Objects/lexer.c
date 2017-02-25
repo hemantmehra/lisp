@@ -224,28 +224,63 @@ char* m_getstring(){
 	return lexer_m.buffer;
 }
 
-void tokenizer(char *str){
+Token* MakeToken(char *str){
+	switch(lexer_m.s->l){
+		case s_lp: 
+			return LPToken();
+		case s_rp: 
+			return RPToken();
+		case s_str: 
+			return StringToken(str);
+		case s_sym: 
+			return SymbolToken(str);
+		case s_int: 
+			return IntToken(str);
+		case s_float: 
+			return FloatToken(str);
+		case s_plus: 
+			return SymbolToken(str);
+		case s_minus:
+			return SymbolToken(str);	
+	}
+}
+
+Token* tokenizer(char *str){
 	char ch;
 	int i, n;
+	Token *t_list = NULL, *temp, *p;
 	m_init();
-	printf("\nTokens: ");
 	while((ch = *str) != '\0'){
 		n = lexer_m.s->arc_c;
 		for(i=0; i<n; i++){
 			if(lexer_m.s->arcs[i].f(ch)){
 				if(lexer_m.s->arcs[i].s.l != s_q0)
-				m_putchar(ch);
+					m_putchar(ch);
 				m_changestate(lexer_m.s->arcs[i].s.l);
 				str++;
 				break;
 			}
 		}
 		if(i == n){
-			printf("%s, ", m_getstring());
+			temp = MakeToken(m_getstring());
+			if(t_list == NULL){
+				t_list = temp;
+				p = t_list;
+			}
+			else{
+				p->next = temp;
+				p = p->next;
+			}
 			m_reset();
 		}
 	}
-	printf("%s\n", m_getstring());
+	if(lexer_m.s->l != s_q0){
+		temp = MakeToken(m_getstring());
+		p->next = temp;
+		p = p->next;
+	}
+	p->next = NULL;
+	return t_list;
 }
 
 int lp_func(char c){

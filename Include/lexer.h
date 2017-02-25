@@ -1,6 +1,7 @@
 #ifndef LEXER_H
 #define LEXER_H
 
+#include "token.h"
 typedef enum{
 	s_q0,
 	s_lp,
@@ -87,7 +88,8 @@ Label m_getcurrlabel();
 void m_putchar(char);
 char* m_getstring();
 
-void tokenizer(char *);
+Token* tokenizer(char *);
+Token* MakeToken(char *);
 
 
 // Arc functions

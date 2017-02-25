@@ -23,11 +23,11 @@ struct token{
 
 Token* new_token(TokenType);
 void set_obj(Token*, Object*);
-Token* TokenFromInt(int);                        
-Token* TokenFromFloat(float);                        
-Token* TokenFromString(char *);                        
-Token* TokenFromSymbol(char*);
-Token* TokenLP();
-Token* TokenRP();
+Token* IntToken(char *);                        
+Token* FloatToken(char *);                        
+Token* StringToken(char *);                        
+Token* SymbolToken(char*);
+Token* LPToken();
+Token* RPToken();
 
 #endif

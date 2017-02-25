@@ -17,39 +17,39 @@ void set_obj(Token* t, Object* obj){
 	t->obj=obj;
 }
 
-Token* TokenLP(){
+Token* LPToken(){
 	Token *t;
 	t=new_token(T_LP);
 	set_obj(t,NULL);
 	return t;
 }   
  
-Token* TokenRP(){
+Token* RPToken(){
 	Token *t;
 	t=new_token(T_RP);
 	set_obj(t,NULL);
 	return t;
 }
 
-Token* TokenFromInt(int i){
+Token* IntToken(char *c){
 	IntObject* int_obj;
 	Token *t;
-	int_obj=Int(i);
+	int_obj=IntFromString(c);
 	t=new_token(T_INT);
 	set_obj(t, OBJECT_CAST(int_obj));
 	return t;
 }
 
-Token* TokenFromFloat(float i){
+Token* FloatToken(char *c){
 	FloatObject* float_obj;
 	Token *t;
-	float_obj=Float(i);
+	float_obj=FloatFromString(c);
 	t=new_token(T_FLOAT);
 	set_obj(t, OBJECT_CAST(float_obj));
 	return t;
 }
 
-Token* TokenFromString(char *i){
+Token* StringToken(char *i){
 	StringObject* string_obj;
 	Token *t;
 	string_obj=String(i);
@@ -58,7 +58,7 @@ Token* TokenFromString(char *i){
 	return t;
 }
 
-Token* TokenFromSymbol(char* i){
+Token* SymbolToken(char* i){
 	SymbolObject* symbol_obj;
 	Token *t;
 	symbol_obj=Symbol(i);
