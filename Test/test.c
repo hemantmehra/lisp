@@ -692,6 +692,11 @@ void parser_test(){
 	l1 = List(3, Int(1),  List(2, Int(2), Int(3)), Int(4));
 	assert(OBJECT_EQ(l, l1));
 
+	t = tokenizer("(1 2 (3 4 (5 6)))");
+	l = tree(t);
+	l1 = List(3, Int(1), Int(2), List(3, Int(3), Int(4), List(2, Int(5), Int(6))));
+	assert(OBJECT_EQ(l, l1));
+
 	printf("Done\n");
 }
 
