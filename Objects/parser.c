@@ -9,7 +9,14 @@ Object* tree(Token* l){
 	t = l->next;
 	while(1){
 		if(TOKEN_TYPE(t) == T_LP){
-			p = curr = tree(t);
+			if(curr == NULL){
+				p = OBJECT_CAST(Node(tree(t)));
+				curr = p;
+			}
+			else{
+				CDR(curr) = OBJECT_CAST(Node(tree(t)));
+				curr = CDR(curr);
+			}	
 		}
 		else if(TOKEN_TYPE(t) == T_RP){
 			CDR(curr) = OBJECT_CAST(Nil());
