@@ -18,6 +18,7 @@
 #include "eval_apply.h"
 #include "lexer.h"
 #include "token.h"
+#include "parser.h"
 
 void intobject_test(){
 	printf("IntObject test...");
@@ -643,6 +644,24 @@ void lexer_test(){
 	t = t->next;
 	assert(t == NULL);
 
+	t = tokenizer("(1 (2 3) 4)");
+	assert(TOKEN_TYPE(t) == T_LP);
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_INT && INT_VAL(t->obj) == 1 );
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_LP);
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_INT && INT_VAL(t->obj) == 2 );
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_INT && INT_VAL(t->obj) == 3 );
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_RP);
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_INT && INT_VAL(t->obj) == 4 );
+	t = t->next;
+	assert(TOKEN_TYPE(t) == T_RP);
+	t = t->next;
+	assert(t == NULL);
 
 	printf("Done\n");
 }
@@ -655,6 +674,24 @@ void token_test(){
 	t = IntToken("-23");
 	assert(TOKEN_TYPE(t) == T_INT);
 	assert(INT_VAL(t->obj) == -23);
+	printf("Done\n");
+}
+
+void parser_test(){
+	printf("Parser test...");
+
+	Token *t;
+	t = tokenizer("(define x 10.125)");
+	Object *l, *l1;
+	l = tree(t);
+	l1 = List(3, DEFINE, Symbol("x"), Float(10.125));
+	assert(OBJECT_EQ(l, l1));
+
+	t = tokenizer("(1 (2 3) 4)");
+	l = tree(t);
+	l1 = List(3, Int(1),  List(2, Int(2), Int(3)), Int(4));
+	assert(OBJECT_EQ(l, l1));
+
 	printf("Done\n");
 }
 
@@ -682,6 +719,7 @@ int main(){
 	basic_prog_test();
 	lexer_test();
 	token_test();
+	parser_test();
 	printf("--------------------------------\n");
 	printf("Test Successful!!!\n");
 	printf("--------------------------------\n");
