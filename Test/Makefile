@@ -20,7 +20,8 @@ HEADERS = \
 	$(IDIR)/eval_apply.h \
 	$(IDIR)/lexer.h \
 	$(IDIR)/token.h \
-	$(IDIR)/parser.h
+	$(IDIR)/parser.h \
+	$(IDIR)/interpret.h
 
 OBJECTS = \
 	$(ODIR)/object.o \
@@ -39,7 +40,8 @@ OBJECTS = \
 	$(ODIR)/eval_apply.o \
 	$(ODIR)/lexer.o \
 	$(ODIR)/token.o \
-	$(ODIR)/parser.o
+	$(ODIR)/parser.o \
+	$(ODIR)/interpret.o
 
 
 all: $(OBJECTS) test.c $(HEADERS)
@@ -96,6 +98,9 @@ $(ODIR)/token.o: $(ODIR)/token.c $(HEADERS)
 
 $(ODIR)/parser.o: $(ODIR)/parser.c $(HEADERS)
 	gcc -c $(ODIR)/parser.c -o $(ODIR)/parser.o $(CFLAGS)
+
+$(ODIR)/interpret.o: $(ODIR)/interpret.c $(HEADERS)
+	gcc -c $(ODIR)/interpret.c -o $(ODIR)/interpret.o $(CFLAGS)
 
 clean:
 	rm $(OBJECTS) test.o

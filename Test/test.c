@@ -19,6 +19,7 @@
 #include "lexer.h"
 #include "token.h"
 #include "parser.h"
+#include "interpret.h"
 
 void intobject_test(){
 	printf("IntObject test...");
@@ -700,6 +701,23 @@ void parser_test(){
 	printf("Done\n");
 }
 
+void interpret_test(){
+	printf("Interpret test...");
+	Object *obj;
+
+	init_env();
+	obj = interpret("(+ 3 6)");
+	assert(OBJECT_EQ(obj, Int(9)));
+
+	interpret("(define x 10)");
+	interpret("(define y 30)");
+
+	obj = interpret("(* x y)");
+	assert(OBJECT_EQ(obj, Int(300)));
+
+	printf("Done\n");
+}
+
 
 int main(){
 	intobject_test();
@@ -725,6 +743,7 @@ int main(){
 	lexer_test();
 	token_test();
 	parser_test();
+	interpret_test();
 	printf("--------------------------------\n");
 	printf("Test Successful!!!\n");
 	printf("--------------------------------\n");
