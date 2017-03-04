@@ -704,7 +704,7 @@ void parser_test(){
 void interpret_test(){
 	printf("Interpret test...");
 	Object *obj;
-
+	
 	init_env();
 	obj = interpret("(+ 3 6)");
 	assert(OBJECT_EQ(obj, Int(9)));
@@ -714,6 +714,25 @@ void interpret_test(){
 
 	obj = interpret("(* x y)");
 	assert(OBJECT_EQ(obj, Int(300)));
+
+	char *code = "(define sqr \
+					(lambda (x) \
+					(* x x)))";
+	interpret(code);
+	obj = interpret("(sqr 25)");
+	assert(OBJECT_EQ(obj, Int(625)));
+
+
+	char *code1 = "(define fact \
+					(lambda ( n )  \
+					   (if (= n 0) 1 \
+					         (* n (fact (- n 1))))))";
+	Token *t;
+	t = tokenizer(code1);
+
+	//interpret(code1);
+	// obj = interpret("(fact 5)");
+	// assert(OBJECT_EQ(obj, Int(120)));
 
 	printf("Done\n");
 }
