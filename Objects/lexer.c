@@ -321,6 +321,7 @@ int minus_func(char c){
 int sym_char_func(char c){
 	if(digit_func(c)||plus_func(c)||minus_func(c)) return 1;
 	else if((c>=65&&c<91) || (c>=97&&c<123)) return 1;
+	else if(c=='<' || c=='>' || c=='=') return 1;
 	else if(c=='/'||c=='*'||c=='%') return 1;
 	else return 0;
 }

@@ -723,16 +723,16 @@ void interpret_test(){
 	assert(OBJECT_EQ(obj, Int(625)));
 
 
-	char *code1 = "(define fact \
-					(lambda ( n )  \
-					   (if (= n 0) 1 \
-					         (* n (fact (- n 1))))))";
-	Token *t;
-	t = tokenizer(code1);
+	char *code1 = "(define isZero (lambda (n) (if (= n 0) 1 0)))";
+	interpret(code1);
+	obj = interpret("(isZero 0)");
+	assert(OBJECT_EQ(obj, Int(1)));
 
-	//interpret(code1);
-	// obj = interpret("(fact 5)");
-	// assert(OBJECT_EQ(obj, Int(120)));
+
+	char *code2 = "(define fact (lambda (n) (if (= n 0) 1 (* n (fact (- n 1))))))";
+	interpret(code2);
+	obj = interpret("(fact 5)");
+	assert(OBJECT_EQ(obj, Int(120)));
 
 	printf("Done\n");
 }
