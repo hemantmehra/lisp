@@ -682,7 +682,7 @@ void parser_test(){
 	printf("Parser test...");
 
 	Token *t;
-	t = tokenizer("(define x 10.125)");
+	t = tokenizer("(define \n x \n 10.125)");
 	Object *l, *l1;
 	l = tree(t);
 	l1 = List(3, DEFINE, Symbol("x"), Float(10.125));

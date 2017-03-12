@@ -17,20 +17,38 @@
 void print_obj(Object*);
 
 int main(){
+	char ch, code[1024], str[200];
+	int p, i;
+	Object *obj;
+
 	printf("------------ Lisp Interpreter -------------\n");
 	printf("type quit to exit\n");
 	printf("-------------------------------------------\n");
 	init_env();
 	while(1){
 		printf("lisp> ");
-		char str[100];
-		Object *obj;
-		fgets(str, 100, stdin);
+		p = 0;
+		code[0] = '\0';
+		
+		do{
+			fgets(str, 200, stdin);
+			i = 0;
+			while((ch = str[i]) != '\0'){
+				if(ch == '(')
+					p++;
+				if(ch == ')')
+					p--;
+				i++;
+			}
+			strcat(code, str);
+		}while(p!=0);
 
-		if(strcmp(str, "quit\n") == 0)
+		if(strcmp(code, "quit\n") == 0)
 			exit(0);
+		if(strcmp(code, "\n") == 0)
+			continue;
 
-		obj=interpret(str);
+		obj=interpret(code);
 
 		print_obj(obj);
 		printf("\n");
