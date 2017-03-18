@@ -14,10 +14,30 @@
 #include "closureobject.h"
 #include "nilobject.h"
 
+void run_shell();
+void exec(FILE*);
 void print_obj(Object*);
+int isWhitespaces(char*);
 
-int main(){
-	char ch, code[1024], str[200];
+int main(int argc, char *argv[]){
+
+	if(argc == 1){
+		run_shell();
+	}
+	else if(argc == 2){
+		FILE *fp;
+		fp = fopen(argv[1], "r");
+		exec(fp);
+		fclose(fp);
+	}
+	else{
+		printf("Too many arguments\n");
+	}
+	return 0;
+}
+
+void run_shell(){
+	char ch, code[4096], str[200];
 	int p, i;
 	Object *obj;
 
@@ -53,10 +73,35 @@ int main(){
 		print_obj(obj);
 		printf("\n");
 	}
-
-	return 0;
 }
 
+void exec(FILE *fp){
+	init_env();
+	Object *obj;
+	int i, p;
+	char code[4096], ch;
+	while(!feof(fp)){
+		i = 0;
+		p = 0;
+		do{
+			ch = fgetc(fp);
+			if(feof(fp)){
+				break;
+			}
+			if(ch == '(')
+				p++;
+			if(ch == ')')
+				p--;
+			code[i++] = ch;
+		}while(p!=0);
+		code[i++] = '\0';
+		if(isWhitespaces(code))
+			continue;
+		obj = interpret(code);
+		print_obj(obj);
+		printf("\n");
+	}
+}
 
 void print_obj(Object* obj){
 	switch(TYPE(obj)){
@@ -91,4 +136,13 @@ void print_obj(Object* obj){
 		case NIL:
 			printf("NIL ");
 	}
+}
+
+int isWhitespaces(char *c){
+	char ch;
+	while((ch = *c++) != '\0'){
+		if(!(ch == ' ' || ch == '\n' || ch == '\r' || ch == '\t'))
+			return 0;
+	}
+	return 1;
 }
