@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctype.h>
 #include "lexer.h"
 
 /*
@@ -327,8 +328,7 @@ int sym_char_func(char c){
 }
 
 int whitespace_func(char c){
-	if(c == ' '||c=='\t'||c=='\n') return 1; 
-	else return 0;
+	return isspace(c);
 }
 
 int allchar_func(char c){
