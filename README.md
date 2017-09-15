@@ -37,4 +37,4 @@ make
 
 ## Start interpreter
 on mac/linux - .\lisp.o </br>
-on windows   - .\lisp.o
+on windows   - ./lisp.o
